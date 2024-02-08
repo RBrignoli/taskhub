@@ -35,16 +35,17 @@ const SprintSchema = new Schema({
 const UserSchema = new Schema({
   name: String,
   email: String,
-  role: String,
   tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
   projects: [{ type: Schema.Types.ObjectId, ref: "Project" }],
 });
 
 const ProjectSchema = new Schema({
-  name: { type: String, required: true},
+  name: { type: String, required: true },
   description: String,
+  owner: { type: Schema.Types.ObjectId, ref: "User" },
   sprints: [{ type: Schema.Types.ObjectId, ref: "Sprint" }],
-  users: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  managers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  members: [{ type: Schema.Types.ObjectId, ref: "User" }],
   columns: [{ type: Schema.Types.ObjectId, ref: "Column" }],
 });
 
