@@ -32,12 +32,15 @@ const SprintSchema = new Schema({
 });
 
 
-const UserSchema = new Schema({
-  name: String,
-  email: String,
-  tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
-  projects: [{ type: Schema.Types.ObjectId, ref: "Project" }],
-});
+const UserSchema = new Schema(
+  {
+    name: { type: String, required: true, maxLength: 40 },
+    email: { type: String, unique: true, required: true },
+    tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
+    projects: [{ type: Schema.Types.ObjectId, ref: "Project" }],
+  },
+  { timestamps: true }
+);
 
 const ProjectSchema = new Schema({
   name: { type: String, required: true },
