@@ -16,12 +16,19 @@ const columnsRoute = require("./routers/columns");
 const projectsRoute = require("./routers/projects");
 const tasksRoute = require("./routers/tasks");
 const sprintsRoute = require("./routers/sprints");
+const usersRoute = require("./routers/user");
+const authRoute = require("./routers/auth");
+
 
 app.use("/", landingpageRoute);
 app.use("/columns", columnsRoute);
 app.use("/projects", projectsRoute);
 app.use("/tasks", tasksRoute);
 app.use("/sprints", sprintsRoute);
+app.use("/users", usersRoute);
+app.use("/auth", authRoute);
+
+
 
 
 app.listen(PORT, () => {
