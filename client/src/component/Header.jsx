@@ -8,7 +8,7 @@ export default function Header() {
   return (
     <Navbar className="border-b-2">
       <Link to="/" className="self-centered font-semibold dark:text-white">
-        <span className="px-2 py-1 bg-black text-white rounded-lg">Task</span>
+        <span className="px-2 py-1 bg-gray-800 text-white rounded-lg">Task</span>
         Hub
       </Link>
       <form>
