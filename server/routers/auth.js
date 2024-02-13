@@ -8,4 +8,6 @@ router.get("/", (req, res) => {
 });
 
 router.post("/signup", controlAuth.signup);
+router.post("/signin", controlAuth.signin);
+
 module.exports = router;
