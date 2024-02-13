@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
-import { Button, TextInput } from "flowbite-react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
+import { Button, TextInput, Alert } from "flowbite-react";
+import API_URLS from "../services/server-urls";
+import apiService from "../services/api";
 
 const SignInPage = () => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [Message, setMessage] = useState(null);
 
   const handleChange = (e) => {
     setFormData({
@@ -24,27 +27,20 @@ const SignInPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Perform sign-in API call
-    const apiUrl = '{url}/auth/signin'; // replace with your actual sign-in API endpoint
     try {
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        alert('Sign In successful!');
-        // You may redirect to another page or perform additional actions after successful sign-in
+      const response = await apiService.api(
+        JSON.stringify(formData),
+        API_URLS.signin,
+        "POST"
+      );
+      console.log(response);
+      if (response.status === 200) {
+        setMessage("Signin successfully!");
       } else {
-        alert('Sign In failed. Please check your credentials and try again.');
+        setMessage("Wrong email or password, please try again.");
       }
     } catch (error) {
-      console.error('Error during sign-in:', error);
-      alert('Error during sign-in. Please try again.');
+      setMessage("Error during Signup. Please try again.");
     }
   };
 
@@ -59,12 +55,8 @@ const SignInPage = () => {
             </span>
             Hub
           </Link>
-          <p className="text-sm mt-5">
-            Este é um projeto de estudo,
-          </p>
-          <p className="text-sm">
-            Faça o login com seu email e senha
-          </p>
+          <p className="text-sm mt-5">This project is part of a study,</p>
+          <p className="text-sm">Sign-In with email and password</p>
         </div>
         {/* right */}
         <form
@@ -116,6 +108,7 @@ const SignInPage = () => {
             </Link>
           </div>
           <Button type="submit">Sign In</Button>
+          {Message && <Alert className="">{Message}</Alert>}
         </form>
       </div>
     </div>
