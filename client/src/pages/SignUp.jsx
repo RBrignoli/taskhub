@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, TextInput, Alert } from "flowbite-react";
 import { AiOutlineMail, AiOutlineUser, AiOutlineLock } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import API_URLS from "../services/server-urls";
 import apiService from "../services/api";
 
@@ -13,6 +13,8 @@ const Signup = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [Message, setMessage] = useState(null);
+  const navigate = useNavigate();
+
 
   const handleChange = (e) => {
     setFormData({
