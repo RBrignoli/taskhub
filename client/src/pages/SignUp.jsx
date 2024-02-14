@@ -129,7 +129,7 @@ const Signup = () => {
               required
             />
           </div>
-          <Button type="submit">Sign Up</Button>
+          <Button type="submit" className="px-2 py-1 bg-gray-800 text-white rounded-lg">Sign Up</Button>
           <div className="flex gap-2 text-sm">
             <span>Already have an account?</span>
             <Link to="/signin" className="text-blue-500">

@@ -117,7 +117,7 @@ const SignInPage = () => {
               Sign Up
             </Link>
           </div>
-          <Button type="submit">Sign In</Button>
+          <Button type="submit" className="px-2 py-1 bg-gray-800 text-white rounded-lg">Sign In</Button>
           {Message && <Alert className="">{Message}</Alert>}
         </form>
       </div>
