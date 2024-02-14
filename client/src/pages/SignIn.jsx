@@ -1,9 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
 import { Button, TextInput, Alert } from "flowbite-react";
 import API_URLS from "../services/server-urls";
 import apiService from "../services/api";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
 
 const SignInPage = () => {
   const [formData, setFormData] = useState({
@@ -12,7 +18,9 @@ const SignInPage = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [Message, setMessage] = useState(null);
+  // const [Message, setMessage] = useState(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -20,7 +28,7 @@ const SignInPage = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  const { loading, error: Message } = useSelector(state => state.user);
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
@@ -28,19 +36,21 @@ const SignInPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      dispatch(signInStart());
       const response = await apiService.api(
         JSON.stringify(formData),
         API_URLS.signin,
         "POST"
       );
-      console.log(response);
+      const data = await response.json();
       if (response.status === 200) {
-        setMessage("Signin successfully!");
+        dispatch(signInSuccess(data));
+        navigate("/");
       } else {
-        setMessage("Wrong email or password, please try again.");
+        dispatch(signInFailure(data.message));
       }
     } catch (error) {
-      setMessage("Error during Signup. Please try again.");
+      dispatch(signInFailure(error.message));
     }
   };
 
