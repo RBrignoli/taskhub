@@ -17,7 +17,7 @@ const signup = async (req, res, next) => {
       email === "" ||
       password === ""
     ) {
-      return res.status(400).json({ error: "All fields are required" });
+      return next(errorHandler(400, "All fields are required"));
     }
     const hashedPassword = await bycryptjs.hashSync(password, 10);
     const user = new User({ name, email, password: hashedPassword });
@@ -25,12 +25,12 @@ const signup = async (req, res, next) => {
   } catch (e) {
     console.log(e);
     if (e.name == "MongoServerError" && e.code === 11000) {
-      return res.status(409).send({ message: "Email already exists." });
+      return next(errorHandler(409, "Email already exists"));
     } else {
-      return res.status(500).send(e);
+      return next(e);
     }
   }
-  return res.status(200).json({ message: "Oskey" });
+  return res.status(200).json({ message: "User Created" });
 };
 
 const signin = async (req, res, next) => {
@@ -38,16 +38,15 @@ const signin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password || email === "" || password === "") {
-      return res.status(400).json({ error: "All fields are required" });
+      return next(errorHandler(400, "All fields are required"));
     }
     const user = await User.findOne({ email: email }).exec();
     if (!user) {
-      // next(errorHandler(404, 'User not Found.')) TODO check why error is not working
-      return res.status(404).json({ message: "User not found." });
+      return next(errorHandler(404, "User not Found."));
     }
     const validPassword = bycryptjs.compareSync(password, user.password);
     if (!validPassword) {
-      return res.status(401).json({ message: "Invalid Email or Password!" });
+      return next(errorHandler(401, "Invalid Email or Password!"));
     }
     const token = jwt.sign(
       {
@@ -57,12 +56,15 @@ const signin = async (req, res, next) => {
       },
       process.env.jwt_secret_key
     );
-    return res.status(200).cookie("Token", token, { httpOnly: true }).json(user);
+    const { password: pass, ...rest } = user._doc;
+    return res
+      .status(200)
+      .cookie("Token", token, { httpOnly: true })
+      .json(rest);
   } catch (e) {
     console.log(e);
-    return res.status(500).send(e);
+    return next(e);
   }
-  
 };
 
 module.exports = {
