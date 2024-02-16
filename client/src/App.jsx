@@ -6,7 +6,8 @@ import About from "./pages/About";
 import Dashboard from "./pages/Dashboard";
 import SignUp from "./pages/SignUp";
 import SignOut from "./pages/SignOut";
-import Contact from "./pages/Contact"
+import Contact from "./pages/Contact";
+import Projects from "./pages/Projects";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
 
@@ -20,8 +21,9 @@ export default function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signout" element={<SignOut />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/projects" element={<Projects />} />
       </Routes>
       <Footer />
     </BrowserRouter>
