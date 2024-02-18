@@ -1,11 +1,16 @@
 const mongoose = require("mongoose");
 const models = require("../models/model");
 const Project = models.Project;
+const User = models.User;
 
 const listProjects = async (req, res) => {
   try {
-    const projects = await Project.find();
-    res.json(projects);
+    const projects = await Project.find().populate('owner'); // Assuming 'owner' is the field name referencing the Owner model
+    const modifiedProjects = projects.map(project => ({
+      ...project._doc,
+      owner: project.owner._doc,
+    }));
+    res.json(modifiedProjects);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -22,7 +27,6 @@ const getProject = async (req, res) => {
 
 const createProject = async (req, res) => {
   const project = new Project(req.body);
-
   try {
     const savedProject = await project.save();
     res.status(201).json(savedProject);

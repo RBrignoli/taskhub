@@ -5,7 +5,11 @@ const User = models.User;
 const listUsers = async (req, res) => {
   try {
     const users = await User.find();
-    res.json(users);
+    const usersList = users.map((user) => ({
+      id: user.id,
+      name: user.name,
+    }));
+    res.json(usersList);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

@@ -6,6 +6,8 @@ const API_URLS = {
   listusers: "/users/",
   createproject: "/projects/",
   listprojects: "/projects/",
+  deleteprojects: "/projects/",
+
 
 };
   
