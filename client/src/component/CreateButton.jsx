@@ -12,6 +12,7 @@ const CreateButton = ({ form, btnText }) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  
 
   return (
     <div>
@@ -25,7 +26,7 @@ const CreateButton = ({ form, btnText }) => {
       </div>
       {isModalOpen && (
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-          {form}
+          <div>{form}</div>
         </Modal>
       )}
     </div>
