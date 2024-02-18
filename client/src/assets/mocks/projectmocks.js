@@ -45,11 +45,11 @@ const mockedUsersListData = [
 
 const mockedColumnsData = [
     {
-      id: "1",
+      _id: "1",
       name: "coluna 1",
     },
     {
-      id: "2",
+      _id: "2",
       name: "coluna 2",
     },
   ];

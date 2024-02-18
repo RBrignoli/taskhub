@@ -1,7 +1,6 @@
 import { useState, useEffect, React } from "react";
 import CreateButton from "../component/CreateButton";
-import { mockedProjectsData } from "../assets/mocks/projectmocks";
-import { Link } from "react-router-dom";
+import EditButton from "../component/EditButton";
 import ProjectForm from "../forms/projectForm";
 import apiService from "../services/api";
 import API_URLS from "../services/server-urls";
@@ -19,9 +18,9 @@ const Projects = () => {
         API_URLS.createproject,
         "POST"
       );
-      const newProject = await response.json()
+      const newProject = await response.json();
       alert("New project created:", newProject.name);
-      location.reload()
+      location.reload();
     } catch (error) {
       alert("Error creating project:", error);
       // TODO: show error message to the user
@@ -79,12 +78,15 @@ const Projects = () => {
               className="bg-white rounded p-4 shadow-md flex flex-row items-start justify-between"
             >
               <div>
-                <Link
-                  to={`/dashboard/${project._id}`}
-                  className="block hover:underline"
-                >
-                  <h2 className="text-xl font-bold mb-2">{project.name}</h2>
-                </Link>
+                <EditButton
+                  form={<ProjectForm onSubmit={onSubmit} project={project} />}
+                  text={
+                    <h2 className="text-xl font-bold mb-2 block hover:underline">
+                      {project.name}
+                    </h2>
+                  }
+                  className="ml-auto"
+                ></EditButton>
                 <p className="text-gray-600 mb-2">{project.description}</p>
                 <p className="text-gray-800">
                   <span className="font-bold">Owner:</span> {project.owner.name}

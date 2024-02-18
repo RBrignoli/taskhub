@@ -28,34 +28,44 @@ const getColumns = async () => {
   }
 };
 
-const ProjectForm = ({ onSubmit }) => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [owner, setOwner] = useState("");
+const ProjectForm = ({ onSubmit, project }) => {
+  console.log(project);
+  const [name, setName] = useState(project ? project.name : "");
+  const [description, setDescription] = useState(
+    project ? project.description : ""
+  );
+  const [owner, setOwner] = useState(project ? project.owner._id : "");
+  const [columns, setColumns] = useState(
+    project ? project.columns.map((column) => column._id) : []
+  );
   const [users, setUsers] = useState([]);
-  const [columns, setColumns] = useState([]);
 
   useEffect(() => {
     getUsers().then((users) => setUsers(users));
     getColumns().then((columns) => setColumns(columns));
   }, []);
 
-  const multiSelect = (
-    <Select
-      isMulti
-      name="columns"
-      options={columns.map((column) => ({
-        value: column.id,
-        label: column.name,
-      }))}
-      className="basic-multi-select"
-      classNamePrefix="select"
-    />
-  );
+  const multiSelect = // TODO: check why columns are always selected
+    (
+      <Select
+        isMulti
+        name="columns"
+        options={columns.map((column) => ({
+          value: column._id,
+          label: column.name,
+        }))}
+        className="basic-multi-select"
+        classNamePrefix="select"
+        value={columns.map((column) => ({
+          value: column._id,
+          label: column.name,
+        }))}
+      />
+    );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ name, description, owner });
+    onSubmit({ name, description, owner, columns });
     setName("");
     setDescription("");
     setOwner("");
@@ -120,7 +130,7 @@ const ProjectForm = ({ onSubmit }) => {
         className="px-2 py-1 bg-gray-800 text-white rounded-lg"
         type="submit"
       >
-        Create Project
+        {project ? "Edit Project" : "Create Project"}
       </Button>
     </form>
   );
