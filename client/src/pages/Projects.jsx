@@ -14,11 +14,12 @@ const Projects = () => {
 
   const onSubmit = async (project) => {
     try {
-      const newProject = await apiService.api(
+      const response = await apiService.api(
         JSON.stringify(project),
         API_URLS.createproject,
         "POST"
       );
+      const newProject = await response.json()
       alert("New project created:", newProject.name);
       location.reload()
     } catch (error) {
