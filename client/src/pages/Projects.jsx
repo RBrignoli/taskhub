@@ -5,9 +5,12 @@ import { Link } from "react-router-dom";
 import ProjectForm from "../forms/projectForm";
 import apiService from "../services/api";
 import API_URLS from "../services/server-urls";
+import { AiOutlineDelete } from "react-icons/ai";
+import { Button } from "flowbite-react";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const onSubmit = async (project) => {
     try {
@@ -17,9 +20,28 @@ const Projects = () => {
         "POST"
       );
       alert("New project created:", newProject.name);
+      location.reload()
     } catch (error) {
       alert("Error creating project:", error);
       // TODO: show error message to the user
+    }
+  };
+
+  const handleDelete = async (projectId) => {
+    console.log(projectId);
+    if (window.confirm("Are you sure you want to delete this project?")) {
+      setIsDeleting(true);
+
+      try {
+        await apiService.api("", API_URLS.deleteprojects + projectId, "DELETE");
+
+        alert("Project deleted successfully");
+        location.reload();
+      } catch (error) {
+        alert("Error deleting project. Please try again later.");
+      } finally {
+        setIsDeleting(false);
+      }
     }
   };
 
@@ -27,8 +49,8 @@ const Projects = () => {
     const fetchProjects = async () => {
       try {
         const response = await apiService.get(API_URLS.listprojects);
-        console.log(response);
         setProjects(response);
+        console.log(response);
       } catch (error) {
         console.error("Error fetching users:", error);
         throw error;
@@ -53,20 +75,29 @@ const Projects = () => {
           {projects.map((project) => (
             <li
               key={project.id}
-              className="bg-white rounded p-4 shadow-md flex flex-col"
+              className="bg-white rounded p-4 shadow-md flex flex-row items-start justify-between"
             >
-              <Link
-                to={`/dashboard/${project.id}`}
-                className="block hover:underline"
+              <div>
+                <Link
+                  to={`/dashboard/${project._id}`}
+                  className="block hover:underline"
+                >
+                  <h2 className="text-xl font-bold mb-2">{project.name}</h2>
+                </Link>
+                <p className="text-gray-600 mb-2">{project.description}</p>
+                <p className="text-gray-800">
+                  <span className="font-bold">Owner:</span> {project.owner.name}
+                </p>
+              </div>
+              <Button
+                color="failure"
+                className="flex items-center justify-center w-8 h-8"
+                onClick={() => {
+                  handleDelete(project._id);
+                }}
               >
-                <h2 className="text-xl font-bold mb-2 flex flex-col">
-                  {project.name}
-                </h2>
-              </Link>
-              <p className="text-gray-600 mb-2">{project.description}</p>
-              <p className="text-gray-800">
-                <span className="font-bold">Owner:</span> {project.owner.name}
-              </p>
+                <AiOutlineDelete className="w-4 h-4" />
+              </Button>
             </li>
           ))}
         </ul>
