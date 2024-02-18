@@ -43,6 +43,10 @@ const Signup = () => {
       console.log(response);
       if (response.status === 200) {
         setMessage("Signup successfully!");
+        setTimeout(() => {
+          navigate('/signin');
+        }, 2000);
+
       } else if (response.status == 409) {
         setMessage("Email already exists");
       }

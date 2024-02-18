@@ -37,7 +37,7 @@ const apiService = {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      return response.json();
+      return response;
     } catch (error) {
       throw new Error("Error. Please try again.");
     }
