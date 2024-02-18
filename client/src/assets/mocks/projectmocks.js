@@ -43,4 +43,16 @@ const mockedUsersListData = [
   },
 ];
 
-export { mockedProjectsData, mockedUsersListData };
+const mockedColumnsData = [
+    {
+      id: "1",
+      name: "coluna 1",
+    },
+    {
+      id: "2",
+      name: "coluna 2",
+    },
+  ];
+  
+
+export { mockedProjectsData, mockedUsersListData, mockedColumnsData };

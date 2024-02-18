@@ -7,6 +7,7 @@ const API_URLS = {
   createproject: "/projects/",
   listprojects: "/projects/",
   deleteprojects: "/projects/",
+  listcolumns: "/columns/",
 
 
 };
