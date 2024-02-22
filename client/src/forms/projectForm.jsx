@@ -8,9 +8,10 @@ import {
   mockedColumnsData,
 } from "../assets/mocks/projectmocks";
 
-const getUsers = async () => {
+const getUsers = async (setUsers) => {
   try {
     const response = await apiService.get(API_URLS.listusers);
+    setUsers(response);
     return response;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -18,57 +19,92 @@ const getUsers = async () => {
   }
 };
 
-const getColumns = async () => {
-  try {
-    const response = await apiService.get(API_URLS.listcolumns);
-    return mockedColumnsData;
-  } catch (error) {
-    console.error("Error fetching columns:", error);
-    throw error;
-  }
-};
+// const getColumns = async (setColOptions, setSelectedColumns, project) => {
+//   try {
+//     const response = await apiService.get(API_URLS.listcolumns);
+//     if (project && project.columns && project.columns.length) {
+//       const formattedSelectedColumns = project.columns.map((col) => {
+//         const foundSelectedCol = response.find((c) => c._id === col);
+//         return foundSelectedCol ? foundSelectedCol : col;
+//       });
+//       const set1 = new Set(response);
+//       const set2 = new Set(formattedSelectedColumns);
+//       const difference = [...set1].filter((element) => !set2.has(element));
+//       setColOptions(difference);
+//       setSelectedColumns(formattedSelectedColumns);
+//     } else {
+//       setColOptions(response);
+//       return [];
+//     }
+//   } catch (error) {
+//     console.error("Error fetching columns:", error);
+//     throw error;
+//   }
+// };
 
-const ProjectForm = ({ onSubmit, project }) => {
-  console.log(project);
+const ProjectForm = ({ onSubmit, project = null }) => {
   const [name, setName] = useState(project ? project.name : "");
   const [description, setDescription] = useState(
     project ? project.description : ""
   );
   const [owner, setOwner] = useState(project ? project.owner._id : "");
-  const [columns, setColumns] = useState(
-    project ? project.columns.map((column) => column._id) : []
-  );
+  // const [selectedColumns, setSelectedColumns] = useState([]);
+
+  // const [colOptions, setColOptions] = useState([]);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    getUsers().then((users) => setUsers(users));
-    getColumns().then((columns) => setColumns(columns));
-  }, []);
+    const fetchData = async () => {
+      await getUsers(setUsers);
+      // await getColumns(setColOptions, setSelectedColumns, project);
+    };
 
-  const multiSelect = // TODO: check why columns are always selected
-    (
-      <Select
-        isMulti
-        name="columns"
-        options={columns.map((column) => ({
-          value: column._id,
-          label: column.name,
-        }))}
-        className="basic-multi-select"
-        classNamePrefix="select"
-        value={columns.map((column) => ({
-          value: column._id,
-          label: column.name,
-        }))}
-      />
-    );
+    fetchData();
+  }, [project]);
+
+  // const colOptionsFormatted = colOptions.map((option) => ({
+  //   value: option._id,
+  //   label: option.name,
+  // }));
+
+  // const selectedColFormatted = selectedColumns.map((option) => ({
+  //   value: option._id,
+  //   label: option.name,
+  // }));
+
+  // const onChange = (selectedOptions) => {
+  //   // porque ta transformando os 2 em undefined?
+  //   console.log(selectedOptions)
+  //   setSelectedColumns(selectedOptions);
+  //   const set1 = new Set(colOptionsFormatted);
+  //   const set2 = new Set(selectedOptions);
+  //   const difference = [...set1].filter((element) => !set2.has(element));
+  //   console.log(difference)
+  //   // setColOptions(difference);
+  //   // setSelectedColumns(formattedSelectedColumns);
+  // };
+
+  // const multiSelect = (
+  //   <div>
+  //     <Select
+  //       value={selectedColFormatted}
+  //       onChange={onChange}
+  //       options={colOptionsFormatted}
+  //       isMulti
+  //       closeMenuOnSelect={false}
+  //       clearable={false}
+  //       placeholder="Select columns"
+  //     />
+  //   </div>
+  // );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ name, description, owner, columns });
+    onSubmit({ name, description, owner });
     setName("");
     setDescription("");
     setOwner("");
+    // setSelectedColumns([]);
   };
 
   return (
@@ -120,12 +156,12 @@ const ProjectForm = ({ onSubmit, project }) => {
           ))}
         </select>
       </div>
-      <div className="mb-4">
+      {/* <div className="mb-4"> #TODO implement variable columns
         <label className="block text-gray-700 font-bold mb-2" htmlFor="columns">
           Columns
         </label>
         {multiSelect}
-      </div>
+      </div> */}
       <Button
         className="px-2 py-1 bg-gray-800 text-white rounded-lg"
         type="submit"
