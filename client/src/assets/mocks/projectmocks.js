@@ -9,6 +9,10 @@ const mockedProjectsData = [
       name: "John Doe",
       email: "john.doe@example.com",
     },
+    columns: {
+      name: "coluna 1",
+      id: "1",
+    }
   },
   {
     id: 2,

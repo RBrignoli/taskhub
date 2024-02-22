@@ -28,10 +28,8 @@ const Projects = () => {
   };
 
   const handleDelete = async (projectId) => {
-    console.log(projectId);
     if (window.confirm("Are you sure you want to delete this project?")) {
       setIsDeleting(true);
-
       try {
         await apiService.api("", API_URLS.deleteprojects + projectId, "DELETE");
 
@@ -50,7 +48,6 @@ const Projects = () => {
       try {
         const response = await apiService.get(API_URLS.listprojects);
         setProjects(response);
-        console.log(response);
       } catch (error) {
         console.error("Error fetching users:", error);
         throw error;
@@ -62,6 +59,7 @@ const Projects = () => {
 
   return (
     <div className="container mx-auto mt-8 px-16">
+      <h1 className="text-3xl font-bold mb-4">Projects</h1>
       <div className="flex justify-end">
         <CreateButton
           form={<ProjectForm onSubmit={onSubmit} />}
@@ -70,7 +68,6 @@ const Projects = () => {
         ></CreateButton>
       </div>
       <div className="mt-4">
-        <h1 className="text-3xl font-bold mb-4">Projects</h1>
         <ul className="grid grid-cols-1 gap-4">
           {projects.map((project) => (
             <li
