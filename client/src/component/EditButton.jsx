@@ -15,10 +15,8 @@ const EditButton = ({ text, form }) => {
   
 
   return (
-    <div>
-      <div onClick={handleOpenModal}>
-        {text}
-      </div>
+    <div className="rounded-lg bg-green-500 w-8 h-8" onClick={handleOpenModal}>
+      {text}
       {isModalOpen && (
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
           <div>{form}</div>

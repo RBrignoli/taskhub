@@ -8,7 +8,8 @@ const SignOutPage = () => {
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    localStorage.clear();
+    localStorage.clear()
+    document.cookie = 'Token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     dispatch(signOutSuccess());
     navigate("/");
   };

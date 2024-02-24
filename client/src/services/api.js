@@ -30,7 +30,8 @@ const apiService = {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: body,
+        body: body
+        // credentials: 'include'
       });
 
       if (!response.ok) {

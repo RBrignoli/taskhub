@@ -26,7 +26,6 @@ const TaskSchema = new Schema({
 const SprintSchema = new Schema({
   name: { type: String, required: true },
   description: String,
-  tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
   goalLine: Date,
   started_at: {type: Date, default: Date.now},
 });
@@ -47,10 +46,11 @@ const ProjectSchema = new Schema({
   name: { type: String, required: true },
   description: String,
   owner: { type: Schema.Types.ObjectId, ref: "User" },
-  sprints: [{ type: Schema.Types.ObjectId, ref: "Sprint" }],
+  // sprints: [{ type: Schema.Types.ObjectId, ref: "Sprint" }],
   managers: [{ type: Schema.Types.ObjectId, ref: "User" }],
   members: [{ type: Schema.Types.ObjectId, ref: "User" }],
   columns: [{ type: Schema.Types.ObjectId, ref: "Column" }],
+  tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
 });
 
 const ColumnSchema = new Schema({

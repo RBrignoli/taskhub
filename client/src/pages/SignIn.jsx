@@ -37,18 +37,16 @@ const SignInPage = () => {
     e.preventDefault();
     try {
       dispatch(signInStart());
-      console.log(formData)
       const response = await apiService.api(
         JSON.stringify(formData),
         API_URLS.signin,
         "POST"
       );
-      console.log(response)
       const data = await response.json();
-      console.log(data)
       if (response.status === 200) {
         dispatch(signInSuccess(data));
         navigate("/");
+        console.log('a', document.cookie)
       } else {
         dispatch(signInFailure(data.message));
       }

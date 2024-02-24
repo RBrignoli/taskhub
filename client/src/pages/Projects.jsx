@@ -4,12 +4,14 @@ import EditButton from "../component/EditButton";
 import ProjectForm from "../forms/projectForm";
 import apiService from "../services/api";
 import API_URLS from "../services/server-urls";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { Button } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [isDeleting, setIsDeleting] = useState(false);
+
 
   const onSubmit = async (project) => {
     try {
@@ -23,6 +25,23 @@ const Projects = () => {
       location.reload();
     } catch (error) {
       alert("Error creating project:", error);
+      // TODO: show error message to the user
+    }
+  };
+
+  const onSubmitEdit = async (project) => {
+    try {
+      const response = await apiService.api(
+        JSON.stringify(project),
+        API_URLS.editproject + project.project._id,
+        "POST"
+      );
+      const editedProject = await response.json();
+      alert("Project Updated");
+      location.reload();
+    } catch (error) {
+      alert("Error updating project:", error);
+      location.reload();
       // TODO: show error message to the user
     }
   };
@@ -68,39 +87,59 @@ const Projects = () => {
         ></CreateButton>
       </div>
       <div className="mt-4">
-        <ul className="grid grid-cols-1 gap-4">
-          {projects.map((project) => (
-            <li
-              key={project.id}
-              className="bg-white rounded p-4 shadow-md flex flex-row items-start justify-between"
-            >
-              <div>
-                <EditButton
-                  form={<ProjectForm onSubmit={onSubmit} project={project} />}
-                  text={
+        <table className="w-full text-left">
+          <thead>
+            <tr>
+              <th className="py-3 px-4">Name</th>
+              <th className="py-3 px-4">Description</th>
+              <th className="py-3 px-4">Owner</th>
+              <th className="py-3 px-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {projects.map((project) => (
+              <tr key={project.id}>
+                <td className="border-b border-gray-200 py-4 px-4">
+                  <Link to="/dashboard">
                     <h2 className="text-xl font-bold mb-2 block hover:underline">
                       {project.name}
                     </h2>
-                  }
-                  className="ml-auto"
-                ></EditButton>
-                <p className="text-gray-600 mb-2">{project.description}</p>
-                <p className="text-gray-800">
-                  <span className="font-bold">Owner:</span> {project.owner.name}
-                </p>
-              </div>
-              <Button
-                color="failure"
-                className="flex items-center justify-center w-8 h-8"
-                onClick={() => {
-                  handleDelete(project._id);
-                }}
-              >
-                <AiOutlineDelete className="w-4 h-4" />
-              </Button>
-            </li>
-          ))}
-        </ul>
+                  </Link>
+                </td>
+                <td className="border-b border-gray-200 py-4 px-4">
+                  <p className="text-gray-600 mb-2">{project.description}</p>
+                </td>
+                <td className="border-b border-gray-200 py-4 px-4">
+                  <p className="text-gray-800">
+                    {project.owner.name
+                      .split(" ")
+                      .map((word) => word[0])
+                      .join("")
+                      .toUpperCase()}
+                  </p>
+                </td>
+                <td className="border-b border-gray-200 py-4 px-4 grid grid-cols-2">
+                  <Button
+                    color="failure"
+                    className="flex items-center justify-center w-8 h-8"
+                    onClick={() => {
+                      handleDelete(project._id);
+                    }}
+                  >
+                    <AiOutlineDelete className="w-4 h-4" />
+                  </Button>
+                  <EditButton
+                    form={
+                      <ProjectForm onSubmit={onSubmitEdit} project={project} />
+                    }
+                    text={<AiOutlineEdit className="w-5 h-5 m-1" />}
+                    className="ml-auto"
+                  ></EditButton>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

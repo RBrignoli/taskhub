@@ -1,0 +1,51 @@
+import React from "react";
+import TaskCard from "./TaskCard";
+import { useDrop } from "react-dnd";
+import apiService from "../services/api";
+import API_URLS from "../services/server-urls";
+import {
+  mockedColumnsData,
+  mockedTasksData,
+} from "../assets/mocks/projectmocks";
+
+const DashboardColumn = ({ title, tasks, column_id }) => {
+  
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: "task",
+    drop: (item) => moveTaskColumn(item.id, column_id),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }));
+
+  const moveTaskColumn = async (id, column_id) => {
+    try {
+      // const response = await apiService.api(
+      //   JSON.stringify({ col_id: column_id }),
+      //   API_URLS.edittask + id,
+      //   "POST"
+      // );
+      // const editedTask = await response.json();
+      alert("Task Updated");
+    } catch (error) {
+      alert("Error updating task:", error);
+      location.reload();
+      // TODO: show error message to the user
+    }
+  };
+
+  return (
+      <div className="bg-white rounded-lg shadow-md p-4 min-h-screen" ref={drop}>
+        <h2 className="text-lg font-semibold mb-4">{title}</h2>
+        <ul className="space-y-2">
+          {tasks.map((task) => (
+            <li key={task.id} className="bg-gray-100 p-2 rounded-md h-32">
+              <TaskCard task={task} />
+            </li>
+          ))}
+        </ul>
+      </div>
+  );
+};
+
+export default DashboardColumn;

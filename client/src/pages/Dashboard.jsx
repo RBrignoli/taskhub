@@ -3,6 +3,8 @@ import KanbanBoard from "../component/kanbanBoard";
 import apiService from "../services/api";
 import API_URLS from "../services/server-urls";
 import DashboardHeader from "../component/DashboardHeader";
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const fetchUsers = async (setUsers) => {
   try {
@@ -38,7 +40,6 @@ const Dashboard = () => {
   };
 
   const handleUserChange = (value) => {
-    console.log(value);
     setSelectedUser(value);
   };
   return (
@@ -50,7 +51,9 @@ const Dashboard = () => {
         users={users}
         onUserChange={handleUserChange}
       />
-      <KanbanBoard project={selectedProject} user={selectedUser} />
+      <DndProvider backend={HTML5Backend}>
+        <KanbanBoard project={selectedProject} user={selectedUser} />
+      </DndProvider>
     </div>
   );
 };

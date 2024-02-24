@@ -54,13 +54,24 @@ const signin = async (req, res, next) => {
         email: user.email,
         name: user.name,
       },
-      process.env.jwt_secret_key
+      process.env.jwt_secret_key,
+      { expiresIn: 86400 * 1000 }
     );
+    const expirationTime = new Date(Date.now() + 86400 * 1000); // 1 day in milliseconds
+
     const { password: pass, ...rest } = user._doc;
     return res
       .status(200)
-      .cookie("Token", token, { httpOnly: true })
-      .json(rest);
+      .cookie("Token", token, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+        expires: expirationTime,
+        domain: "localhost",
+        maxAge: 86400 * 1000,
+        credentials: true
+      })
+      .json({ ...rest, expirationTime: expirationTime.toISOString() });
   } catch (e) {
     console.log(e);
     return next(e);
