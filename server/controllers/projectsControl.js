@@ -37,6 +37,7 @@ const createProject = async (req, res) => {
 
 const updateProject = async (req, res) => {
   try {
+    console.log(req.body)
     const updatedProject = await Project.findByIdAndUpdate(
       req.params.id,
       req.body,

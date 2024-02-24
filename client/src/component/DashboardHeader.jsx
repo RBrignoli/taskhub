@@ -1,5 +1,9 @@
 import React from "react";
 import Select from "react-select";
+import CreateButton from "../component/CreateButton";
+import TaskForm from "../forms/taskForm";
+
+
 
 const DashboardHeader = ({
   projects,
@@ -36,8 +40,25 @@ const DashboardHeader = ({
     onUserChange(userIds);
   };
 
+  const onSubmit = async (task) => {
+    try {
+      
+      // const response = await apiService.api(
+      //   JSON.stringify(project),
+      //   API_URLS.createproject,
+      //   "POST"
+      // );
+      // const newProject = await response.json();
+      alert("New task created:", task);
+      location.reload();
+    } catch (error) {
+      alert("Error creating project:", error);
+      // TODO: show error message to the user
+    }
+  };
+
   return (
-    <header className="bg-white shadow">
+    <header className="bg-white">
       <div className="mx-auto py-6 flex">
         <div className="min-w-0">
           <Select
@@ -61,6 +82,13 @@ const DashboardHeader = ({
             placeholder="Users"
             isMulti
           />
+        </div>
+        <div className="ml-auto">
+          <CreateButton
+            form={<TaskForm onSubmit={onSubmit} />} // TODO: add the create Task form
+            btnText="Create Task"
+            className="ml-auto"
+          ></CreateButton>
         </div>
       </div>
     </header>

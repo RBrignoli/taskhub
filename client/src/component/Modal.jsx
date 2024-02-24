@@ -16,7 +16,7 @@ const Modal = ({ isOpen, onClose, children }) => {
         onClick={onClose}
       ></div>
       <div
-        className={`relative bg-white rounded-lg p-6 max-w-md ${modalContentStyle} transition-transform duration-300`}
+        className={`relative bg-white rounded-lg p-6 max-w-lg ${modalContentStyle} transition-transform duration-300`}
       >
         {children}
         <button
