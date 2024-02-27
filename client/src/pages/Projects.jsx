@@ -98,9 +98,9 @@ const Projects = () => {
           </thead>
           <tbody>
             {projects.map((project) => (
-              <tr key={project.id}>
+              <tr key={project._id}>
                 <td className="border-b border-gray-200 py-4 px-4">
-                  <Link to="/dashboard">
+                  <Link to={`/dashboard/${project._id}`}>
                     <h2 className="text-xl font-bold mb-2 block hover:underline">
                       {project.name}
                     </h2>

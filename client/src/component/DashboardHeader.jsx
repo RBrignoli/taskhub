@@ -2,8 +2,8 @@ import React from "react";
 import Select from "react-select";
 import CreateButton from "../component/CreateButton";
 import TaskForm from "../forms/taskForm";
-
-
+import apiService from "../services/api";
+import API_URLS from "../services/server-urls";
 
 const DashboardHeader = ({
   projects,
@@ -42,13 +42,16 @@ const DashboardHeader = ({
 
   const onSubmit = async (task) => {
     try {
-      
-      // const response = await apiService.api(
-      //   JSON.stringify(project),
-      //   API_URLS.createproject,
-      //   "POST"
-      // );
-      // const newProject = await response.json();
+      const { isActive, ...taskWithoutIsActive } = task;
+      const columnValue = isActive ? 1 : 0;
+      const updatedTask = { ...taskWithoutIsActive, column: columnValue };
+      console.log(updatedTask)
+      const response = await apiService.api(
+        JSON.stringify(updatedTask),
+        API_URLS.createtask,
+        "POST"
+      );
+      const newTask = await response.json();
       alert("New task created:", task);
       location.reload();
     } catch (error) {

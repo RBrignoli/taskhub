@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button } from "flowbite-react";
 
 
 const Modal = ({ isOpen, onClose, children }) => {
@@ -16,7 +15,7 @@ const Modal = ({ isOpen, onClose, children }) => {
         onClick={onClose}
       ></div>
       <div
-        className={`relative bg-white rounded-lg p-6 max-w-lg ${modalContentStyle} transition-transform duration-300`}
+        className={`relative bg-white rounded-lg p-6 max-w-lg h-4/6 overflow-y-auto ${modalContentStyle} transition-transform duration-300`}
       >
         {children}
         <button

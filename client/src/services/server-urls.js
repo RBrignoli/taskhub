@@ -9,6 +9,10 @@ const API_URLS = {
   deleteprojects: "/projects/",
   editproject: "/projects/",
   listcolumns: "/columns/",
+  listtasks: "/tasks/",
+  createtask: "/tasks/",
+  edittask: "/tasks/",
+
 
 
 };

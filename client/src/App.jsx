@@ -24,6 +24,7 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/dashboard/:id" element={<Dashboard/>} />
       </Routes>
       <Footer />
     </BrowserRouter>
