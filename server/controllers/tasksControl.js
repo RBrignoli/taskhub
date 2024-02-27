@@ -5,7 +5,14 @@ const Task = models.Task;
 const listTasks = async (req, res) => {
   try {
     const tasks = await Task.find();
-    res.json(tasks);
+    const tasksWithUserInfo = await Promise.all(
+      tasks.map(async (task) => {
+        const user = await models.User.findById(task.user);
+        return { ...task.toObject(), user: { id: user._id, name: user.name } };
+      })
+    );
+
+    res.json(tasksWithUserInfo);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
