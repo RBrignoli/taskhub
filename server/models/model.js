@@ -6,14 +6,19 @@ const TaskSchema = new Schema({
   title: String,
   description: String,
   user: { type: Schema.Types.ObjectId, ref: "User" },
-  column: { type: Schema.Types.ObjectId, ref: "Column" },
+  project: { type: Schema.Types.ObjectId, ref: "Project" },
+  column: {
+    type: Number,
+    enum: [0, 1, 2, 3, 4],
+    default: 0,
+  },
   storypoints: {
     type: Number,
     enum: [0, 1, 2, 3, 5, 8, 12, 20],
     default: 1,
   },
-  hoursspent: Number,
-  hoursestimate: Number,
+  hoursspent: { type: Number, default: 0 },
+  hoursestimate: { type: Number, default: 0 },
   priority: {
     type: String,
     enum: ["Low", "Medium", "High"],
@@ -21,15 +26,19 @@ const TaskSchema = new Schema({
   },
 });
 
+TaskSchema.virtual("hoursremaining").get(function () {
+  return this.hoursestimate - this.hoursspent;
+});
 
+TaskSchema.set("toJSON", { virtuals: true });
+TaskSchema.set("toObject", { virtuals: true });
 
 const SprintSchema = new Schema({
   name: { type: String, required: true },
   description: String,
   goalLine: Date,
-  started_at: {type: Date, default: Date.now},
+  started_at: { type: Date, default: Date.now },
 });
-
 
 const UserSchema = new Schema(
   {
@@ -49,7 +58,7 @@ const ProjectSchema = new Schema({
   // sprints: [{ type: Schema.Types.ObjectId, ref: "Sprint" }],
   managers: [{ type: Schema.Types.ObjectId, ref: "User" }],
   members: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  columns: [{ type: Schema.Types.ObjectId, ref: "Column" }],
+  // columns: [{ type: Schema.Types.ObjectId, ref: "Column" }],
   tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
 });
 

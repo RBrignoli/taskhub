@@ -4,11 +4,12 @@ import {
   mockedColumnsData,
   mockedTasksData,
 } from "../assets/mocks/projectmocks";
+import apiService from "../services/api";
+import API_URLS from "../services/server-urls";
 
 const fetchColumns = async (setColumns) => {
   try {
-    // const response = await apiService.get(API_URLS.listusers);
-    setColumns(mockedColumnsData);
+    setColumns(mockedColumnsData); //TODO dinamically add columns
   } catch (error) {
     console.error("Error fetching users:", error);
     throw error;
@@ -16,8 +17,8 @@ const fetchColumns = async (setColumns) => {
 };
 const fetchTasks = async (setTasks) => {
   try {
-    // const response = await apiService.get(API_URLS.listusers);
-    setTasks(mockedTasksData);
+    const response = await apiService.get(API_URLS.listtasks);
+    setTasks(response);
   } catch (error) {
     console.error("Error fetching users:", error);
     throw error;
@@ -35,10 +36,9 @@ const KanbanBoard = () => {
   const tasksByColumn = {};
   columns.forEach((column) => {
     tasksByColumn[column.id] = tasks.filter(
-      (task) => task.col_id === column.id
+      (task) => task.column === column.id
     );
   });
-
 
   return (
     <ul className={"grid grid-cols-4 gap-4 max-h-100"}>

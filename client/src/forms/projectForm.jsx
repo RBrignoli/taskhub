@@ -5,7 +5,7 @@ import API_URLS from "../services/server-urls";
 import Select from "react-select";
 
 
-const getUsers = async (setUsers) => {
+const fetchUsers = async (setUsers) => {
   try {
     const response = await apiService.get(API_URLS.listusers);
     setUsers(response);
@@ -26,16 +26,15 @@ const ProjectForm = ({ onSubmit, project = null }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await getUsers(setUsers);
+      await fetchUsers(setUsers);
     };
 
     fetchData();
   }, [project]);
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ name, description, owner, project});
+    onSubmit({ name, description, owner, project });
     setName("");
     setDescription("");
     setOwner("");

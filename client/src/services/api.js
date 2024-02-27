@@ -1,10 +1,11 @@
 import API_URLS from "./server-urls";
 
 const apiService = {
-  async get(url) {
+  async get(url, queryParams) {
     const apiUrl = `${API_URLS.API_BASE_URL}${url}`;
     try {
-      const response = await fetch(apiUrl, {
+      const queryString = new URLSearchParams(queryParams || {}).toString();
+      const response = await fetch(`${apiUrl}?${queryString}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
