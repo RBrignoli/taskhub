@@ -6,10 +6,11 @@ const apiService = {
     try {
       const queryString = new URLSearchParams(queryParams || {}).toString();
       const response = await fetch(`${apiUrl}?${queryString}`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -29,10 +30,10 @@ const apiService = {
       const response = await fetch(apiUrl, {
         method: method,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: body
-        // credentials: 'include'
+        body: body,
+        credentials: "include",
       });
 
       if (!response.ok) {

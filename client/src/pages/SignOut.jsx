@@ -2,14 +2,20 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { signOutSuccess } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
+import API_URLS from "../services/server-urls";
+import apiService from "../services/api";
 
 const SignOutPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     localStorage.clear()
-    document.cookie = 'Token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    const response = await apiService.api(
+      "",
+      API_URLS.logout,
+      "POST"
+    );
     dispatch(signOutSuccess());
     navigate("/");
   };

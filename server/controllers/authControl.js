@@ -50,28 +50,40 @@ const signin = async (req, res, next) => {
     }
     const token = jwt.sign(
       {
-        id: user._id,
+        _id: user._id,
         email: user.email,
         name: user.name,
       },
       process.env.jwt_secret_key,
-      { expiresIn: 86400 * 1000 }
+      { expiresIn: 60 * 60 * 24 * 3 }
     );
-    const expirationTime = new Date(Date.now() + 86400 * 1000); // 1 day in milliseconds
+    const expirationTime = new Date(Date.now() + 60 * 60 * 24 * 3);
 
     const { password: pass, ...rest } = user._doc;
     return res
       .status(200)
       .cookie("Token", token, {
         httpOnly: true,
-        sameSite: "none",
-        secure: true,
+        secure: false,
         expires: expirationTime,
-        domain: "localhost",
-        maxAge: 86400 * 1000,
-        credentials: true
       })
-      .json({ ...rest, expirationTime: expirationTime.toISOString() });
+      .json({ ...rest });
+  } catch (e) {
+    console.log(e);
+    return next(e);
+  }
+};
+
+const logout = async (req, res) => {
+  try {
+    res.cookie("Token", "none", {
+      expires: new Date(Date.now() + 5 * 1000),
+      httpOnly: true,
+    });
+    res.status(200).json({
+      success: true,
+      message: "User logged out successfully",
+    });
   } catch (e) {
     console.log(e);
     return next(e);
@@ -81,4 +93,5 @@ const signin = async (req, res, next) => {
 module.exports = {
   signup,
   signin,
+  logout,
 };
