@@ -55,9 +55,9 @@ const signin = async (req, res, next) => {
         name: user.name,
       },
       process.env.jwt_secret_key,
-      { expiresIn: 60 * 60 * 24 * 3 }
+      { expiresIn: 1000 * 60 * 60 * 24 * 3 }
     );
-    const expirationTime = new Date(Date.now() + 60 * 60 * 24 * 3);
+    const expirationTime = new Date(Date.now() + 1000 * 60 * 60 * 24 * 3);
 
     const { password: pass, ...rest } = user._doc;
     return res
@@ -66,6 +66,7 @@ const signin = async (req, res, next) => {
         httpOnly: true,
         secure: false,
         expires: expirationTime,
+        maxAge: 1000 * 60 * 60 * 24 * 3
       })
       .json({ ...rest });
   } catch (e) {

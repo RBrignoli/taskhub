@@ -14,7 +14,7 @@ const fetchUsers = async (setUsers) => {
   }
 };
 
-const fetchProjects = async (setUsers) => {
+const fetchProjects = async (setProjects) => {
   try {
     const response = await apiService.get(API_URLS.listprojects);
     setProjects(response);
@@ -59,7 +59,8 @@ const TaskForm = ({ onSubmit }) => {
 
   const [selectedProject, setSelectedProject] = React.useState(
     FormattedProjects.find((option) => option.value === users.selectedProject) || null
-  );
+  ); 
+  console.log(projects)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -132,7 +133,7 @@ const TaskForm = ({ onSubmit }) => {
         </div>
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 font-bold mb-2" htmlFor="user">
+        <label className="block text-gray-700 font-bold mb-2" htmlFor="project">
           Project
         </label>
         <div className="min-w-0 ml-4">
@@ -248,7 +249,7 @@ const TaskForm = ({ onSubmit }) => {
         className="px-2 py-1 bg-gray-800 text-white rounded-lg"
         type="submit"
       >
-        Create Project
+        Create Task
       </Button>
     </form>
   );
