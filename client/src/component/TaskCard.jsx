@@ -54,7 +54,7 @@ const TaskCard = ({ task }) => {
   }));
 
   return (
-    <div ref={drag} className="p-4 rounded-lg  mb-4">
+    <div ref={drag} className="p-4 rounded-lg mb-4">
       <h2 className="text-lg font-semibold mb-2">{task.title}</h2>
       <Tooltip label="Task responsible">
         <div className="text-gray-700 mb-1">{task.user.name}</div>

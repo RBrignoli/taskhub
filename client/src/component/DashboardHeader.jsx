@@ -86,9 +86,9 @@ const DashboardHeader = ({
             isMulti
           />
         </div>
-        <div className="ml-auto">
+        <div className="ml-auto z-20">
           <CreateButton
-            form={<TaskForm onSubmit={onSubmit} />} // TODO: add the create Task form
+            form={<TaskForm onSubmit={onSubmit} />}
             btnText="Create Task"
             className="ml-auto"
           ></CreateButton>
