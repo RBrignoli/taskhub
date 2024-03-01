@@ -1,20 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const taskController = require("../controllers/tasksControl")
+const { cookieValidator } = require("../middlewares/cookieValidator");
 
-// Get all tasks
-router.get("/", taskController.listTasks);
 
-// Get single task
-router.get("/:id", taskController.getTask);
-
-// Create a new task
-router.post("/", taskController.createTask);
-
-// Update a task by its ID
-router.post("/:id", taskController.updateTask);
-
-// Delete a task by its ID
-router.delete("/:id", taskController.deleteTask);
+router.get("/", cookieValidator, taskController.listTasks);
+router.get("/:id", cookieValidator, taskController.getTask);
+router.post("/", cookieValidator, taskController.createTask);
+router.post("/:id", cookieValidator, taskController.updateTask);
+router.delete("/:id", cookieValidator, taskController.deleteTask);
 
 module.exports = router;
