@@ -129,10 +129,10 @@ const Projects = () => {
                     <AiOutlineDelete className="w-4 h-4" />
                   </Button>
                   <EditButton
+                    text={<AiOutlineEdit className="w-5 h-5 m-1" />}
                     form={
                       <ProjectForm onSubmit={onSubmitEdit} project={project} />
                     }
-                    text={<AiOutlineEdit className="w-5 h-5 m-1" />}
                     className="ml-auto"
                   ></EditButton>
                 </td>

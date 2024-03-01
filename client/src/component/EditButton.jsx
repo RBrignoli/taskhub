@@ -6,18 +6,21 @@ const EditButton = ({ text, form }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
-    console.log(isModalOpen);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    console.log(isModalOpen);
   };
 
   return (
-    <div className="rounded-lg bg-green-500 w-8 h-8" onClick={handleOpenModal}>
-      {text}
+    <div>
+      <div
+        className="rounded-lg bg-green-500 w-8 h-8"
+        onClick={handleOpenModal}
+      >
+        {text}
+      </div>
       {isModalOpen && (
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
           <div>{form}</div>
