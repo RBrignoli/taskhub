@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const controlProjects = require("../controllers/projectsControl");
+const { cookieValidator } = require("../middlewares/cookieValidator");
 
 // Get all projects
-router.get("/", controlProjects.listProjects);
+router.get("/", cookieValidator, controlProjects.listProjects);
 
 // Get single project
 router.get("/:id", controlProjects.getProject);
