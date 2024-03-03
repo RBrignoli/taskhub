@@ -3,12 +3,26 @@ const models = require("../models/model");
 const Project = models.Project;
 const User = models.User;
 
+function removeDuplicates(array) {
+  return array.filter((value, index, self) => {
+    return self.findIndex(item => item._id.toString() === value._id.toString()) === index;
+  });
+}
+
 const listProjects = async (req, res) => {
   try {
-    const projects = await Project.find().populate('owner'); // Assuming 'owner' is the field name referencing the Owner model
-    const modifiedProjects = projects.map(project => ({
+    const projects = await Project.find()
+      .populate("owner")
+      .populate("members")
+      .populate("managers");
+    const modifiedProjects = projects.map((project) => ({
       ...project._doc,
       owner: project.owner._doc,
+      allRelatedUsers: removeDuplicates([
+        project.owner,
+        ...project.managers,
+        ...project.members,
+      ]),
     }));
     res.json(modifiedProjects);
   } catch (err) {

@@ -46,20 +46,51 @@ const UserSchema = new Schema(
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
-    projects: [{ type: Schema.Types.ObjectId, ref: "Project" }],
+    projects: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Project",
+      },
+    ],
+    ownerOf: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Project",
+      },
+    ],
+    managed: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Project",
+      },
+    ],
   },
   { timestamps: true }
 );
+UserSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+
+  delete userObject.password;
+  delete userObject.createdAt;
+  delete userObject.updatedAt;
+
+  return userObject;
+};
 
 const ProjectSchema = new Schema({
   name: { type: String, required: true },
   description: String,
   owner: { type: Schema.Types.ObjectId, ref: "User" },
-  // sprints: [{ type: Schema.Types.ObjectId, ref: "Sprint" }],
   managers: [{ type: Schema.Types.ObjectId, ref: "User" }],
   members: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  // columns: [{ type: Schema.Types.ObjectId, ref: "Column" }],
   tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
+  // columns: [{ type: Schema.Types.ObjectId, ref: "Column" }],
+  // sprints: [{ type: Schema.Types.ObjectId, ref: "Sprint" }],
+});
+
+ProjectSchema.virtual("allRelatedUsers").get(function () {
+  return [...this.owner, ...this.managers, ...this.members];
 });
 
 const ColumnSchema = new Schema({
