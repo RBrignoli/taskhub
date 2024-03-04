@@ -1,22 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import CreateButton from "../component/CreateButton";
 import TaskForm from "../forms/taskForm";
 import apiService from "../services/api";
 import API_URLS from "../services/server-urls";
 
-const DashboardHeader = ({
-  projects,
-  users,
-  onProjectChange,
-  onUserChange,
-}) => {
+const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
+  const [users, setUsers] = useState([]);
+
   const FormattedProjects = projects.map((option) => ({
     value: option._id,
     label: option.name,
   }));
   const FormattedUsers = users.map((option) => ({
-    value: option.id,
+    value: option._id,
     label: option.name,
   }));
 
@@ -25,6 +22,17 @@ const DashboardHeader = ({
       (option) => option.value === projects.selectedProject
     ) || null
   );
+  useEffect(() => {
+    if (selectedProject) {
+      const selectedProjectObj = projects.find(
+        (project) => project._id.toString() === selectedProject.value
+      );
+      setUsers(selectedProjectObj ? selectedProjectObj.allRelatedUsers : []);
+    } else {
+      setUsers([]);
+    }
+  }, [selectedProject, projects]);
+
   const [selectedUser, setSelectedUser] = React.useState(
     FormattedUsers.find((opt) => opt.value === users.selectedUser) || null
   );
@@ -39,13 +47,16 @@ const DashboardHeader = ({
     setSelectedUser(selectedOptions);
     onUserChange(userIds);
   };
+  // console.log(users)
+  // console.log(selectedUser);
+  // console.log(FormattedUsers)
 
   const onSubmit = async (task) => {
     try {
       const { isActive, ...taskWithoutIsActive } = task;
       const columnValue = isActive ? 1 : 0;
       const updatedTask = { ...taskWithoutIsActive, column: columnValue };
-      console.log(updatedTask)
+      console.log(updatedTask);
       const response = await apiService.api(
         JSON.stringify(updatedTask),
         API_URLS.createtask,
