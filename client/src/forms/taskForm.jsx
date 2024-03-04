@@ -48,8 +48,8 @@ const TaskForm = ({ onSubmit }) => {
     label: option.name,
   }));
 
-  const FormattedProjects = users.map((option) => ({
-    value: option.id,
+  const FormattedProjects = projects.map((option) => ({
+    value: option._id,
     label: option.name,
   }));
 
@@ -58,9 +58,10 @@ const TaskForm = ({ onSubmit }) => {
   );
 
   const [selectedProject, setSelectedProject] = React.useState(
-    FormattedProjects.find((option) => option.value === users.selectedProject) || null
-  ); 
-  console.log(projects)
+    FormattedProjects.find(
+      (option) => option.value === projects.selectedProject
+    ) || null
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -70,17 +71,18 @@ const TaskForm = ({ onSubmit }) => {
       user: selectedUser,
       storypoint,
       hoursestimate: hoursEstimate,
+      project: selectedProject,
       priority,
       isActive,
     });
     setTitle("");
     setDescription("");
     setSelectedUser("");
+    setSelectedProject("");
     setStorypoint(0);
     setHoursEstimate(0);
     setPriority("Low");
   };
-
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-4">
@@ -139,14 +141,14 @@ const TaskForm = ({ onSubmit }) => {
         <div className="min-w-0 ml-4">
           <select
             className="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-            id="owner"
+            id="project"
             value={selectedProject}
             onChange={(e) => setSelectedProject(e.target.value)}
             required
           >
             <option value="">Select a Project</option>
             {projects.map((project) => (
-              <option key={project.id} value={project.id}>
+              <option key={project._id} value={project._id}>
                 {project.name}
               </option>
             ))}
