@@ -38,9 +38,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchProjects(setProjects);
-    if (selectedProject) {
-      fetchUsers(setUsers, selectedProject);
-    }
   }, [selectedProject]);
 
   const handleProjectChange = (value) => {
@@ -57,7 +54,6 @@ const Dashboard = () => {
       <DashboardHeader
         projects={projects}
         onProjectChange={handleProjectChange}
-        users={users}
         onUserChange={handleUserChange}
       />
       <DndProvider backend={HTML5Backend}>

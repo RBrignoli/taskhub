@@ -15,24 +15,31 @@ const fetchColumns = async (setColumns) => {
     throw error;
   }
 };
-const fetchTasks = async (setTasks) => {
+const fetchTasks = async (setTasks, project, users) => {
   try {
-    const response = await apiService.get(API_URLS.listtasks);
+    const queryParams = {};
+    if (project.project) {
+      queryParams.project = project.project;
+    }
+    if (project.user > []) {
+      queryParams.users = project.user;
+    }
+    const response = await apiService.get(API_URLS.listtasks, queryParams);
     setTasks(response);
   } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error("Error fetching tasks:", error);
     throw error;
   }
 };
 
-const KanbanBoard = () => {
+const KanbanBoard = (project, users) => {
   const [columns, setColumns] = useState([]);
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     fetchColumns(setColumns);
-    fetchTasks(setTasks);
-  }, []);
+    fetchTasks(setTasks, project, users);
+  }, [users, project]);
   const tasksByColumn = {};
   columns.forEach((column) => {
     tasksByColumn[column.id] = tasks.filter(

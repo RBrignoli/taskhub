@@ -23,6 +23,8 @@ const ProjectForm = ({ onSubmit, project = null }) => {
   );
   const [owner, setOwner] = useState(project ? project.owner._id : "");
   const [users, setUsers] = useState([]);
+  const [members, setMembers] = useState("");
+  const [managers, setManagers] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,11 +36,20 @@ const ProjectForm = ({ onSubmit, project = null }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ name, description, owner, project });
+    const managedIds = managers.map((user) => user.value);
+    const memberIds = members.map((user) => user.value);
+    console.log(managedIds)
+    console.log(memberIds)
+    onSubmit({ name, description, owner, project, managers: managedIds, members: memberIds });
     setName("");
     setDescription("");
     setOwner("");
   };
+  
+  const FormattedUsers = users.map((option) => ({
+    value: option.id,
+    label: option.name,
+  }));
 
   return (
     <form onSubmit={handleSubmit}>
@@ -88,6 +99,29 @@ const ProjectForm = ({ onSubmit, project = null }) => {
             </option>
           ))}
         </select>
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-bold mb-2" htmlFor="members">
+          Managers
+        </label>
+        <Select
+          isMulti
+          options={FormattedUsers}
+          onChange={setManagers}
+          loadOptions={FormattedUsers}
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-bold mb-2" htmlFor="members">
+          Members
+        </label>
+
+        <Select
+          isMulti
+          options={FormattedUsers}
+          onChange={setMembers}
+          loadOptions={FormattedUsers}
+        />
       </div>
       <Button
         className="px-2 py-1 bg-gray-800 text-white rounded-lg"
