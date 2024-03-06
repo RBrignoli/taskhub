@@ -4,6 +4,7 @@ import CreateButton from "../component/CreateButton";
 import TaskForm from "../forms/taskForm";
 import apiService from "../services/api";
 import API_URLS from "../services/server-urls";
+import { useLocation } from "react-router-dom";
 
 const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
   const [users, setUsers] = useState([]);
@@ -16,12 +17,18 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
     value: option._id,
     label: option.name,
   }));
+  const projectIdFromUrl = useLocation();
+  console.log(projectIdFromUrl.search.split(":")[1]);
 
   const [selectedProject, setSelectedProject] = React.useState(
     FormattedProjects.find(
-      (option) => option.value === projects.selectedProject
+      (option) =>
+        option.value === projectIdFromUrl || // TODO check why isn't selecting the project
+        option.value === projects.selectedProject
     ) || null
   );
+  console.log(selectedProject);
+
   useEffect(() => {
     if (selectedProject) {
       const selectedProjectObj = projects.find(
@@ -97,7 +104,7 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
             isMulti
           />
         </div>
-        <div className="ml-auto z-20">
+        <div className="ml-auto">
           <CreateButton
             form={<TaskForm onSubmit={onSubmit} />}
             btnText="Create Task"

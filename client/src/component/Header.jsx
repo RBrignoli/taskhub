@@ -34,17 +34,17 @@ export default function Header() {
       <Navbar.Collapse>
         {currentUser ? (
           <>
-            <Navbar.Link active={path === "/dashboard"} as={"div"}>
-              <Link to="/dashboard">Dashboard</Link>
-            </Navbar.Link>
             <Navbar.Link active={path === "/"} as={"div"}>
               <Link to="/">Home</Link>
             </Navbar.Link>
-            <Navbar.Link active={path === "/about"} as={"div"}>
-              <Link to="/about">About</Link>
+            <Navbar.Link active={path === "/dashboard"} as={"div"}>
+              <Link to="/dashboard">Dashboard</Link>
             </Navbar.Link>
             <Navbar.Link active={path === "/projects"} as={"div"}>
               <Link to="/projects">Projects</Link>
+            </Navbar.Link>
+            <Navbar.Link active={path === "/about"} as={"div"}>
+              <Link to="/about">About</Link>
             </Navbar.Link>
           </>
         ) : (

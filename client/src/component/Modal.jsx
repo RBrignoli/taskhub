@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 const Modal = ({ isOpen, onClose, children }) => {
   const modalOverlayStyle = isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none";
   const modalContentStyle = isOpen ? "transform translate-y-0" : "transform -translate-y-full";
-  console.log(isOpen);
 
   return (
     <div

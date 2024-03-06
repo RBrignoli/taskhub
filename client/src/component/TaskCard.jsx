@@ -6,9 +6,21 @@ import {
 } from "react-icons/bs";
 import Tooltip from "./Tooltip";
 import { useDrag } from "react-dnd";
+import TaskModal from "./TaskModal";
 
 const TaskCard = ({ task }) => {
   const [priority, setPriority] = useState(task.priority);
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+
+  const handleOpenTaskModal = () => {
+    setIsTaskModalOpen(true);
+  };
+
+  const handleCloseTaskModal = () => {
+    console.log(isTaskModalOpen);
+    setIsTaskModalOpen(false);
+  };
+  console.log(isTaskModalOpen);
 
   const getPriorityColor = () => {
     switch (priority) {
@@ -55,7 +67,9 @@ const TaskCard = ({ task }) => {
 
   return (
     <div ref={drag} className="p-4 rounded-lg mb-4">
-      <h2 className="text-lg font-semibold mb-2">{task.title}</h2>
+      <h2 className="text-lg font-semibold mb-2" onClick={handleOpenTaskModal}>
+        {task.title}
+      </h2>
       <Tooltip label="Task responsible">
         <div className="text-gray-700 mb-1">{task.user.name}</div>
       </Tooltip>
@@ -66,6 +80,13 @@ const TaskCard = ({ task }) => {
         </div>
         {getPriorityColor()}
       </div>
+      {isTaskModalOpen && (
+        <TaskModal
+          isOpen={isTaskModalOpen}
+          onClose={handleCloseTaskModal}
+          task={task}
+        />
+      )}
     </div>
   );
 };
