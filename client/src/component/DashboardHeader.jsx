@@ -9,25 +9,29 @@ import { useLocation } from "react-router-dom";
 const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
   const [users, setUsers] = useState([]);
 
-  const FormattedProjects = projects.map((option) => ({
-    value: option._id,
-    label: option.name,
-  }));
   const FormattedUsers = users.map((option) => ({
     value: option._id,
     label: option.name,
   }));
-  const projectIdFromUrl = useLocation();
-  console.log(projectIdFromUrl.search.split(":")[1]);
+  const FormattedProjects = projects.map((option) => ({
+    value: option._id,
+    label: option.name,
+  }));
+  const projectIdFromUrl = useLocation().pathname.split("/")[2];
 
-  const [selectedProject, setSelectedProject] = React.useState(
-    FormattedProjects.find(
-      (option) =>
-        option.value === projectIdFromUrl || // TODO check why isn't selecting the project
-        option.value === projects.selectedProject
-    ) || null
-  );
-  console.log(selectedProject);
+  const [selectedProject, setSelectedProject] = useState();
+  if (projectIdFromUrl) {
+    console.log("teste");
+    const testeA =
+      FormattedProjects.find((option) => option.value === projectIdFromUrl) ||
+      null;
+    console.log(testeA)
+    // if (testeA) {
+    //   setSelectedProject(testeA);
+    // }
+  }
+
+  // console.log(selectedProject);
 
   useEffect(() => {
     if (selectedProject) {
@@ -45,6 +49,7 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
   );
 
   const handleProjectChange = (selectedOption) => {
+    console.log(selectedOption)
     setSelectedProject(selectedOption);
     onProjectChange(selectedOption.value);
   };
@@ -54,9 +59,6 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
     setSelectedUser(selectedOptions);
     onUserChange(userIds);
   };
-  // console.log(users)
-  // console.log(selectedUser);
-  // console.log(FormattedUsers)
 
   const onSubmit = async (task) => {
     try {

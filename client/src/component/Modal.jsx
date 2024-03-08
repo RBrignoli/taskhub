@@ -8,14 +8,14 @@ const Modal = ({ isOpen, onClose, children }) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full h-full flex items-center justify-center ${modalOverlayStyle} transition-opacity duration-300 backdrop-blur-sm`}
+      className={`fixed top-0 left-0 w-full h-full flex items-center justify-center ${modalOverlayStyle} transition-opacity duration-300 backdrop-blur-sm z-40`}
     >
       <div
-        className="absolute w-full h-full bg-black opacity-50"
+        className="absolute w-full h-full bg-black opacity-50 z-40"
         onClick={onClose}
       ></div>
       <div
-        className={`relative bg-white rounded-lg p-6 z-50 max-w-lg h-4/6 overflow-y-auto ${modalContentStyle} transition-transform duration-300 z-20`}
+        className={`relative bg-white rounded-lg p-6 max-w-lg h-4/6 overflow-y-auto ${modalContentStyle} transition-transform duration-300 z-50`}
       >
         {children}
         <button

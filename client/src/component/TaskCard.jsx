@@ -17,10 +17,8 @@ const TaskCard = ({ task }) => {
   };
 
   const handleCloseTaskModal = () => {
-    console.log(isTaskModalOpen);
     setIsTaskModalOpen(false);
   };
-  console.log(isTaskModalOpen);
 
   const getPriorityColor = () => {
     switch (priority) {

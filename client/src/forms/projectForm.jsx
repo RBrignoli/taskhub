@@ -38,8 +38,6 @@ const ProjectForm = ({ onSubmit, project = null }) => {
     e.preventDefault();
     const managedIds = managers.map((user) => user.value);
     const memberIds = members.map((user) => user.value);
-    console.log(managedIds)
-    console.log(memberIds)
     onSubmit({ name, description, owner, project, managers: managedIds, members: memberIds });
     setName("");
     setDescription("");
@@ -115,7 +113,6 @@ const ProjectForm = ({ onSubmit, project = null }) => {
         <label className="block text-gray-700 font-bold mb-2" htmlFor="members">
           Members
         </label>
-
         <Select
           isMulti
           options={FormattedUsers}

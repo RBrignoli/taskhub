@@ -25,6 +25,7 @@ const fetchTasks = async (setTasks, project, users) => {
       queryParams.users = project.user;
     }
     const response = await apiService.get(API_URLS.listtasks, queryParams);
+    console.log(response);
     setTasks(response);
   } catch (error) {
     console.error("Error fetching tasks:", error);
@@ -55,6 +56,10 @@ const KanbanBoard = (project, users) => {
             title={column.title}
             tasks={tasksByColumn[column.id]}
             column_id={column.id}
+            fetchTasks={fetchTasks}
+            setTasks={setTasks}
+            project={project}
+            users={users}
           />
         </li>
       ))}
