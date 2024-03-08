@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { mockedCommentsData } from "../assets/mocks/projectmocks";
+import apiService from "../services/api";
+import API_URLS from "../services/server-urls";
 
 const fetchComments = async (setComments, task) => {
   try {
@@ -13,11 +15,27 @@ const fetchComments = async (setComments, task) => {
 const TaskModal = ({ isOpen, onClose, task }) => {
   const [commentContent, setCommentContent] = useState("");
   const [comments, setComments] = useState([]);
+  const [hoursSpent, setHoursSpent] = useState(task.hoursspent);
 
   const handleAddComment = () => {
     console.log(commentContent);
   };
 
+  const handleAddhours = async () => {
+    try {
+      const response = await apiService.api(
+        JSON.stringify({'hoursspent': hoursSpent}),
+        API_URLS.edittask + task.id,
+        "POST"
+      );
+      const editedTask = await response.json();
+      alert("Task Updated");
+    } catch (error) {
+      alert("Error updating task:", error);
+      location.reload();
+      // TODO: show error message to the user
+    }
+  };
 
   useEffect(() => {
     fetchComments(setComments, task);
@@ -34,7 +52,10 @@ const TaskModal = ({ isOpen, onClose, task }) => {
       className={`fixed top-0 left-0 w-full h-full flex items-center justify-center ${modalOverlayStyle} transition-opacity duration-300 backdrop-blur-sm z-40`}
     >
       <div className="relative w-full h-full">
-        <div className="absolute w-full h-full bg-black opacity-50" onClick={onClose}></div>
+        <div
+          className="absolute w-full h-full bg-black opacity-50"
+          onClick={onClose}
+        ></div>
         <div
           className={`bg-white rounded-lg p-6 w-4/6 h-4/6 justify-center absolute left-1/2 top-1/4 transform -translate-x-1/2 -translate-y-1/2 ${modalContentStyle} transition-transform duration-300 z-50`}
         >
@@ -50,13 +71,13 @@ const TaskModal = ({ isOpen, onClose, task }) => {
               <p>{task.description}</p>
               <div className="w-5/6 relative mt-2">
                 <textarea
-                  className="w-full p-2 border rounded-lg"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                   value={commentContent}
                   onChange={(e) => setCommentContent(e.target.value)}
                   placeholder="Add a comment"
                 />
                 <button
-                  className="absolute bottom-0 right-0 p-2 bg-blue-500 text-white rounded-lg "
+                  className="absolute right-0 h-full px-3 py-2 border border-gray-300 rounded-r-md shadow-sm bg-gray-800 text-white"
                   onClick={handleAddComment}
                 >
                   {">"}
@@ -79,7 +100,21 @@ const TaskModal = ({ isOpen, onClose, task }) => {
                 <li className="mt-0">Column: {task.column}</li>
                 <li className="mt-3">Priority: {task.priority}</li>
                 <li className="mt-3">Estimated Hours: {task.hoursestimate}</li>
-                <li className="mt-3">Spent Hours: {task.hoursspent}</li>
+                <li className="mt-3 relative">
+                  Spent Hours
+                  <input
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                    type="number"
+                    value={hoursSpent}
+                    onChange={(e) => setHoursSpent(e.target.value)}
+                  />
+                  <button
+                    onClick={() => handleAddhours()}
+                    className="absolute right-0 px-3 py-2 border border-gray-300 rounded-r-md shadow-sm bg-gray-800 text-white"
+                  >
+                    Set Hours
+                  </button>
+                </li>
                 <li className="mt-3">Remaining Hours: {task.hoursremaining}</li>
                 <li className="mt-3">Project: {task.project.name}</li>
               </ul>
