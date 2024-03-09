@@ -10,6 +10,7 @@ import Contact from "./pages/Contact";
 import Projects from "./pages/Projects";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
+import Backlog from "./pages/Backlog"
 
 export default function App() {
   return (
@@ -24,7 +25,9 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/projects" element={<Projects />} />
-        <Route path="/dashboard/:id" element={<Dashboard/>} />
+        <Route path="/dashboard/:id" element={<Dashboard />} />
+        <Route path="/backlog" element={<Backlog />} />
+
       </Routes>
       <Footer />
     </BrowserRouter>

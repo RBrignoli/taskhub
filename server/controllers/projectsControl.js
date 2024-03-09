@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const models = require("../models/model");
 const Project = models.Project;
 const User = models.User;
+const Task = models.Task;
 
 function removeDuplicates(array) {
   return array.filter((value, index, self) => {
@@ -15,6 +16,17 @@ const listProjects = async (req, res) => {
       .populate("owner")
       .populate("members")
       .populate("managers");
+      const populateTasks = async (projects) => {
+        for (const project of projects) {
+          const tasks = await Task.find({ project: project._id }).populate(
+            "user"
+          );
+          console.log(tasks);
+          project.tasks = tasks;
+        }
+      };
+
+      await populateTasks(projects);
     const modifiedProjects = projects.map((project) => ({
       ...project._doc,
       owner: project.owner._doc,

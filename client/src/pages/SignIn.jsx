@@ -45,7 +45,7 @@ const SignInPage = () => {
       const data = await response.json();
       if (response.status === 200) {
         dispatch(signInSuccess(data));
-        navigate("/");
+        navigate("/backlog");
         console.log('a', document.cookie)
       } else {
         dispatch(signInFailure(data.message));
