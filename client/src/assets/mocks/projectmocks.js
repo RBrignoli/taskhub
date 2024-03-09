@@ -129,9 +129,37 @@ const mockedTasksData = [
   },
 ];
 
+const mockedCommentsData = [
+  {
+    id: "1",
+    taskId: "65e4af36286144ca42080f31",
+    content: "This is the first comment.",
+    createdAt: new Date("2023-03-22T15:00:00.000Z"),
+    updatedAt: new Date("2023-03-22T15:00:00.000Z"),
+    user: { id: "1", name: "John Doe" },
+  },
+  {
+    id: "2",
+    taskId: "65e4af36286144ca42080f31",
+    content: "This is the second comment.",
+    createdAt: new Date("2023-03-22T16:00:00.000Z"),
+    updatedAt: new Date("2023-03-22T16:00:00.000Z"),
+    user: { id: "2", name: "Jane Doe" },
+  },
+  {
+    id: "3",
+    taskId: "65e4af36286144ca42080f31",
+    content: "This is the third comment.",
+    createdAt: new Date("2023-03-22T17:00:00.000Z"),
+    updatedAt: new Date("2023-03-22T17:00:00.000Z"),
+    user: { id: "3", name: "Jim Smith" },
+  },
+];
+
 export {
   mockedProjectsData,
   mockedUsersListData,
   mockedColumnsData,
   mockedTasksData,
+  mockedCommentsData,
 };

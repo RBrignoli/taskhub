@@ -4,24 +4,35 @@ import CreateButton from "../component/CreateButton";
 import TaskForm from "../forms/taskForm";
 import apiService from "../services/api";
 import API_URLS from "../services/server-urls";
+import { useLocation } from "react-router-dom";
 
 const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
   const [users, setUsers] = useState([]);
 
-  const FormattedProjects = projects.map((option) => ({
-    value: option._id,
-    label: option.name,
-  }));
   const FormattedUsers = users.map((option) => ({
     value: option._id,
     label: option.name,
   }));
+  const FormattedProjects = projects.map((option) => ({
+    value: option._id,
+    label: option.name,
+  }));
+  const projectIdFromUrl = useLocation().pathname.split("/")[2];
 
-  const [selectedProject, setSelectedProject] = React.useState(
-    FormattedProjects.find(
-      (option) => option.value === projects.selectedProject
-    ) || null
-  );
+  const [selectedProject, setSelectedProject] = useState();
+  if (projectIdFromUrl) {
+    console.log("teste");
+    const testeA =
+      FormattedProjects.find((option) => option.value === projectIdFromUrl) ||
+      null;
+    console.log(testeA)
+    // if (testeA) {
+    //   setSelectedProject(testeA);
+    // }
+  }
+
+  // console.log(selectedProject);
+
   useEffect(() => {
     if (selectedProject) {
       const selectedProjectObj = projects.find(
@@ -38,6 +49,7 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
   );
 
   const handleProjectChange = (selectedOption) => {
+    console.log(selectedOption)
     setSelectedProject(selectedOption);
     onProjectChange(selectedOption.value);
   };
@@ -47,9 +59,6 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
     setSelectedUser(selectedOptions);
     onUserChange(userIds);
   };
-  // console.log(users)
-  // console.log(selectedUser);
-  // console.log(FormattedUsers)
 
   const onSubmit = async (task) => {
     try {
@@ -97,7 +106,7 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
             isMulti
           />
         </div>
-        <div className="ml-auto z-20">
+        <div className="ml-auto">
           <CreateButton
             form={<TaskForm onSubmit={onSubmit} />}
             btnText="Create Task"
