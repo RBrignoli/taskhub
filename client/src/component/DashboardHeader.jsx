@@ -21,11 +21,9 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
 
   const [selectedProject, setSelectedProject] = useState();
   if (projectIdFromUrl) {
-    console.log("teste");
     const testeA =
       FormattedProjects.find((option) => option.value === projectIdFromUrl) ||
       null;
-    console.log(testeA)
     // if (testeA) {
     //   setSelectedProject(testeA);
     // }

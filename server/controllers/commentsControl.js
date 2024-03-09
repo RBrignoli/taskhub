@@ -5,8 +5,7 @@ const Comment = models.Comment;
 const listComments = async (req, res) => {
   try {
     const task_id = req.params.id;
-    console.log(task_id);
-    const comments = await Comment.find({ task: task_id });
+    const comments = await Comment.find({ task: task_id }).populate('user');
     res.json(comments);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -14,10 +13,11 @@ const listComments = async (req, res) => {
 };
 
 const createComment = async (req, res) => {
+  console.log(req.user)
   const comment = new Comment({
     content: req.body.content,
     task: req.body.task_id,
-    user: req.body.user_id,
+    user: req.user._id,
   });
 
   try {

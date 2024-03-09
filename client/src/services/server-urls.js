@@ -13,6 +13,7 @@ const API_URLS = {
   listtasks: "/tasks/",
   createtask: "/tasks/",
   edittask: "/tasks/",
+  comments: "/comments/",
 
 
 

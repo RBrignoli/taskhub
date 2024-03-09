@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { mockedCommentsData } from "../assets/mocks/projectmocks";
 import apiService from "../services/api";
 import API_URLS from "../services/server-urls";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const fetchComments = async (setComments, task) => {
   try {
-    setComments(mockedCommentsData); //TODO dinamically add comments
+    const response = await apiService.get(API_URLS.comments + task.id);
+    setComments(response);
   } catch (error) {
     console.error("Error fetching comments:", error);
     throw error;
@@ -17,14 +19,33 @@ const TaskModal = ({ isOpen, onClose, task }) => {
   const [comments, setComments] = useState([]);
   const [hoursSpent, setHoursSpent] = useState(task.hoursspent);
 
-  const handleAddComment = () => {
-    console.log(commentContent);
+  const handleAddComment = async () => {
+    try {
+      await apiService.api(
+        JSON.stringify({'task_id': task.id, 'content': commentContent}),
+        API_URLS.comments,
+        "POST"
+      );
+      fetchComments(setComments, task);
+    } catch (error) {
+      alert("Error creating comment. Please try again later.");
+    }
+  };
+  const handleDeleteComment = (comment) => async () => {
+    if (window.confirm("Are you sure you want to delete this comment?")) {
+      try {
+        await apiService.api("", API_URLS.comments + comment._id, "DELETE");
+        fetchComments(setComments, task);
+      } catch (error) {
+        alert("Error deleting comment. Please try again later.");
+      }
+    }
   };
 
   const handleAddhours = async () => {
     try {
       const response = await apiService.api(
-        JSON.stringify({'hoursspent': hoursSpent}),
+        JSON.stringify({ hoursspent: hoursSpent }),
         API_URLS.edittask + task.id,
         "POST"
       );
@@ -40,6 +61,7 @@ const TaskModal = ({ isOpen, onClose, task }) => {
   useEffect(() => {
     fetchComments(setComments, task);
   }, [task]);
+
   const modalOverlayStyle = isOpen
     ? "opacity-100 pointer-events-auto"
     : "opacity-0 pointer-events-none";
@@ -69,7 +91,7 @@ const TaskModal = ({ isOpen, onClose, task }) => {
             <div className="w-3/5">
               <h2 className="text-xl font-semibold mb-2">{task.title}</h2>
               <p>{task.description}</p>
-              <div className="w-5/6 relative mt-2">
+              <div className="w-11/12 relative mt-2">
                 <textarea
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                   value={commentContent}
@@ -83,12 +105,16 @@ const TaskModal = ({ isOpen, onClose, task }) => {
                   {">"}
                 </button>
               </div>
-              <div className="mt-2">
+              <div className="mt-2 max-h-fit overlay-y-auto">
                 {comments.map((comment) => (
-                  <div key={comment.id} className="mb-2">
+                  <div key={comment._id} className="mb-2 border border-gray-300 w-11/12">
                     <div>{comment.content}</div>
-                    <div className="text-gray-500 text-sm">
-                      {comment.user.name} at {comment.createdAt.date}
+                    <div className="text-gray-500 text-sm flex">
+                      {comment.user.name} at {comment.createdAt}
+                      <AiOutlineDelete
+                        className="w-4 h-4 bg-red-500 mx-2 my-1"
+                        onClick={handleDeleteComment(comment)}
+                      />
                     </div>
                   </div>
                 ))}
