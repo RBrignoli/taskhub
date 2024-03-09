@@ -20,7 +20,6 @@ const TaskModal = ({ isOpen, onClose, task }) => {
   const [hoursSpent, setHoursSpent] = useState(task.hoursspent);
 
   const handleAddComment = async () => {
-    console.log(commentContent);
     try {
       await apiService.api(
         JSON.stringify({'task_id': task.id, 'content': commentContent}),
@@ -33,7 +32,6 @@ const TaskModal = ({ isOpen, onClose, task }) => {
     }
   };
   const handleDeleteComment = (comment) => async () => {
-    console.log(comment);
     if (window.confirm("Are you sure you want to delete this comment?")) {
       try {
         await apiService.api("", API_URLS.comments + comment._id, "DELETE");
@@ -93,7 +91,7 @@ const TaskModal = ({ isOpen, onClose, task }) => {
             <div className="w-3/5">
               <h2 className="text-xl font-semibold mb-2">{task.title}</h2>
               <p>{task.description}</p>
-              <div className="w-5/6 relative mt-2">
+              <div className="w-11/12 relative mt-2">
                 <textarea
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                   value={commentContent}
@@ -107,9 +105,9 @@ const TaskModal = ({ isOpen, onClose, task }) => {
                   {">"}
                 </button>
               </div>
-              <div className="mt-2">
+              <div className="mt-2 max-h-fit overlay-y-auto">
                 {comments.map((comment) => (
-                  <div key={comment.id} className="mb-2">
+                  <div key={comment._id} className="mb-2 border border-gray-300 w-11/12">
                     <div>{comment.content}</div>
                     <div className="text-gray-500 text-sm flex">
                       {comment.user.name} at {comment.createdAt}
