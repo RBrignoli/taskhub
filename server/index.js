@@ -22,21 +22,24 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const landingpageRoute = require("./routers/landing_page");
-const columnsRoute = require("./routers/columns");
+// const columnsRoute = require("./routers/columns");
 const projectsRoute = require("./routers/projects");
 const tasksRoute = require("./routers/tasks");
-const sprintsRoute = require("./routers/sprints");
+// const sprintsRoute = require("./routers/sprints");
 const usersRoute = require("./routers/user");
 const authRoute = require("./routers/auth");
+const commentsRoute = require("./routers/comments");
+
 
 
 app.use("/", landingpageRoute);
-app.use("/columns", columnsRoute);
+// app.use("/columns", columnsRoute);
 app.use("/projects", projectsRoute);
 app.use("/tasks", tasksRoute);
-app.use("/sprints", sprintsRoute);
+// app.use("/sprints", sprintsRoute);
 app.use("/users", usersRoute);
 app.use("/auth", authRoute);
+app.use("/comments", commentsRoute);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

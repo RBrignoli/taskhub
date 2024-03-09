@@ -33,12 +33,12 @@ TaskSchema.virtual("hoursremaining").get(function () {
 TaskSchema.set("toJSON", { virtuals: true });
 TaskSchema.set("toObject", { virtuals: true });
 
-const SprintSchema = new Schema({
-  name: { type: String, required: true },
-  description: String,
-  goalLine: Date,
-  started_at: { type: Date, default: Date.now },
-});
+// const SprintSchema = new Schema({
+//   name: { type: String, required: true },
+//   description: String,
+//   goalLine: Date,
+//   started_at: { type: Date, default: Date.now },
+// });
 
 const UserSchema = new Schema(
   {
@@ -93,15 +93,25 @@ ProjectSchema.virtual("allRelatedUsers").get(function () {
   return [...this.owner, ...this.managers, ...this.members];
 });
 
-const ColumnSchema = new Schema({
-  name: String,
-  description: String,
-});
+// const ColumnSchema = new Schema({
+//   name: String,
+//   description: String,
+// });
+
+const CommentSchema = new Schema(
+  {
+    user: { type: Schema.Types.ObjectId, ref: "User" },
+    task: { type: Schema.Types.ObjectId, ref: "Task" },
+    content: String,
+  },
+  { timestamps: true }
+);
 
 const Task = mongoose.model("Task", TaskSchema);
-const Sprint = mongoose.model("Sprint", SprintSchema);
+// const Sprint = mongoose.model("Sprint", SprintSchema);
 const User = mongoose.model("User", UserSchema);
 const Project = mongoose.model("Project", ProjectSchema);
-const Column = mongoose.model("Column", ColumnSchema);
+// const Column = mongoose.model("Column", ColumnSchema);
+const Comment = mongoose.model("Comment", CommentSchema);
 
-module.exports = { Task, Sprint, User, Project, Column };
+module.exports = { Task, User, Project, Comment };
