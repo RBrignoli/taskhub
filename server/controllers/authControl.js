@@ -66,7 +66,8 @@ const signin = async (req, res, next) => {
         httpOnly: true,
         secure: false,
         expires: expirationTime,
-        maxAge: 1000 * 60 * 60 * 24 * 3
+        maxAge: 1000 * 60 * 60 * 24 * 3,
+        sameSite: 'None'
       })
       .json({ ...rest });
   } catch (e) {
