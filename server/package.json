@@ -6,7 +6,8 @@
   "scripts": {
     "test": "test",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build": "npm install && npm install --prefix"
   },
   "author": "Ramon B",
   "license": "ISC",
