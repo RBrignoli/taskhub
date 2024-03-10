@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import TaskCard from "./TaskCard";
 import { useDrop } from "react-dnd";
 import apiService from "../services/api";

@@ -1,4 +1,3 @@
-import React from 'react';
 
 function Tooltip({ children, label }) {
   return (

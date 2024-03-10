@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import KanbanBoard from "../component/kanbanBoard";
 import apiService from "../services/api";
 import API_URLS from "../services/server-urls";
