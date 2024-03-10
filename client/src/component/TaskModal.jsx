@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { mockedCommentsData } from "../assets/mocks/projectmocks";
+import { useState, useEffect } from "react";
 import apiService from "../services/api";
 import API_URLS from "../services/server-urls";
 import { AiOutlineDelete } from "react-icons/ai";

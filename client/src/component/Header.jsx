@@ -1,5 +1,4 @@
 import { Button, Dropdown, Navbar, TextInput, Avatar } from "flowbite-react";
-import { React } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useSelector } from "react-redux";

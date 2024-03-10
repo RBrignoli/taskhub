@@ -1,4 +1,3 @@
-import React from "react";
 import { useDispatch } from "react-redux";
 import { signOutSuccess } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";

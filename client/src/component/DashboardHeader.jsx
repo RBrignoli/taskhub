@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Select from "react-select";
 import CreateButton from "../component/CreateButton";
 import TaskForm from "../forms/taskForm";
@@ -42,7 +42,7 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
     }
   }, [selectedProject, projects]);
 
-  const [selectedUser, setSelectedUser] = React.useState(
+  const [selectedUser, setSelectedUser] = useState(
     FormattedUsers.find((opt) => opt.value === users.selectedUser) || null
   );
 
