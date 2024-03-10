@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 8000;
 connectDB();
 app.use(
   cors({
-    origin: [process.env.client_url],
+    origin: [process.env.client_url, process.env.prod_url],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
