@@ -6,7 +6,6 @@ const errorHandler = require("../utils/error");
 const jwt = require("jsonwebtoken");
 
 const signup = async (req, res, next) => {
-  console.log(req.body);
   try {
     const { name, email, password } = req.body;
     if (
@@ -34,7 +33,6 @@ const signup = async (req, res, next) => {
 };
 
 const signin = async (req, res, next) => {
-  console.log(req.body);
   try {
     const { email, password } = req.body;
     if (!email || !password || email === "" || password === "") {
@@ -64,7 +62,7 @@ const signin = async (req, res, next) => {
       .status(200)
       .cookie("Token", token, {
         httpOnly: true,
-        secure: false,
+        secure: true,
         expires: expirationTime,
         maxAge: 1000 * 60 * 60 * 24 * 3,
         sameSite: 'None'
