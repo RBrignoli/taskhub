@@ -62,10 +62,10 @@ const signin = async (req, res, next) => {
       .status(200)
       .cookie("Token", token, {
         httpOnly: true,
-        secure: true,
         expires: expirationTime,
         maxAge: 1000 * 60 * 60 * 24 * 3,
-        sameSite: 'None'
+        sameSite: 'None',
+        secure: true,
       })
       .json({ ...rest });
   } catch (e) {
