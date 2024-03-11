@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineMail, AiOutlineLock } from "react-icons/ai";
 import { Button, TextInput, Alert } from "flowbite-react";
-import API_URLS from "../services/server-urls";
+import { API_URLS } from "../services/server-urls";
 import apiService from "../services/api";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -46,7 +46,6 @@ const SignInPage = () => {
       if (response.status === 200) {
         dispatch(signInSuccess(data));
         navigate("/backlog");
-        console.log('a', document.cookie)
       } else {
         dispatch(signInFailure(data.message));
       }

@@ -21,7 +21,6 @@ const listProjects = async (req, res) => {
           const tasks = await Task.find({ project: project._id }).populate(
             "user"
           );
-          console.log(tasks);
           project.tasks = tasks;
         }
       };
@@ -63,7 +62,6 @@ const createProject = async (req, res) => {
 
 const updateProject = async (req, res) => {
   try {
-    console.log(req.body)
     const updatedProject = await Project.findByIdAndUpdate(
       req.params.id,
       req.body,

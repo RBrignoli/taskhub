@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "flowbite-react";
 import apiService from "../services/api";
-import API_URLS from "../services/server-urls";
+import { API_URLS } from "../services/server-urls";
 import Select from "react-select";
 
 

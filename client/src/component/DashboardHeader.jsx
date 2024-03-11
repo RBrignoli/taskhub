@@ -3,7 +3,7 @@ import Select from "react-select";
 import CreateButton from "../component/CreateButton";
 import TaskForm from "../forms/taskForm";
 import apiService from "../services/api";
-import API_URLS from "../services/server-urls";
+import { API_URLS } from "../services/server-urls";
 import { useLocation } from "react-router-dom";
 
 const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
@@ -29,8 +29,6 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
     // }
   }
 
-  // console.log(selectedProject);
-
   useEffect(() => {
     if (selectedProject) {
       const selectedProjectObj = projects.find(
@@ -47,7 +45,6 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
   );
 
   const handleProjectChange = (selectedOption) => {
-    console.log(selectedOption)
     setSelectedProject(selectedOption);
     onProjectChange(selectedOption.value);
   };
@@ -63,7 +60,6 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
       const { isActive, ...taskWithoutIsActive } = task;
       const columnValue = isActive ? 1 : 0;
       const updatedTask = { ...taskWithoutIsActive, column: columnValue };
-      console.log(updatedTask);
       const response = await apiService.api(
         JSON.stringify(updatedTask),
         API_URLS.createtask,

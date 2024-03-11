@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import apiService from "../services/api";
-import API_URLS from "../services/server-urls";
+import { API_URLS } from "../services/server-urls";
 import { AiOutlineDelete } from "react-icons/ai";
 
 const fetchComments = async (setComments, task) => {

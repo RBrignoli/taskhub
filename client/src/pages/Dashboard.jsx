@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import KanbanBoard from "../component/kanbanBoard";
 import apiService from "../services/api";
-import API_URLS from "../services/server-urls";
+import { API_URLS } from "../services/server-urls";
 import DashboardHeader from "../component/DashboardHeader";
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -10,7 +10,6 @@ import { useParams, useNavigate } from "react-router-dom";
 const fetchUsers = async (setUsers, selectedProject) => {
   try {
     const queryParams = { project: selectedProject };
-    console.log(queryParams)
     const response = await apiService.get(API_URLS.listusers, queryParams);
     setUsers(response);
   } catch (error) {

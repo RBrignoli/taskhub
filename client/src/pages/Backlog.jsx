@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import apiService from "../services/api";
-import API_URLS from "../services/server-urls";
+import { API_URLS } from "../services/server-urls";
 import { useSelector } from "react-redux";
 import Tooltip from "../component/Tooltip";
 
@@ -14,10 +14,8 @@ const Backlog = () => {
     const fetchProjects = async () => {
       try {
         const response = await apiService.get(API_URLS.listprojects);
-        console.log(response);
 
         setProjects(response);
-        // console.log(response);
       } catch (error) {
         console.error("Error fetching users:", error);
         throw error;

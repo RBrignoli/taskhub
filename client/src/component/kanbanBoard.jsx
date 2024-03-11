@@ -5,7 +5,7 @@ import {
   mockedTasksData,
 } from "../assets/mocks/projectmocks";
 import apiService from "../services/api";
-import API_URLS from "../services/server-urls";
+import { API_URLS } from "../services/server-urls";
 
 const fetchColumns = async (setColumns) => {
   try {
@@ -25,7 +25,6 @@ const fetchTasks = async (setTasks, project, users) => {
       queryParams.users = project.user;
     }
     const response = await apiService.get(API_URLS.listtasks, queryParams);
-    console.log(response);
     setTasks(response);
   } catch (error) {
     console.error("Error fetching tasks:", error);

@@ -3,7 +3,7 @@ import CreateButton from "../component/CreateButton";
 import EditButton from "../component/EditButton";
 import ProjectForm from "../forms/projectForm";
 import apiService from "../services/api";
-import API_URLS from "../services/server-urls";
+import { API_URLS } from "../services/server-urls";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { Button } from "flowbite-react";
 import { Link } from "react-router-dom";
