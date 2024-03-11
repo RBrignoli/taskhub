@@ -17,6 +17,9 @@ const TaskModal = ({ isOpen, onClose, task }) => {
   const [commentContent, setCommentContent] = useState("");
   const [comments, setComments] = useState([]);
   const [hoursSpent, setHoursSpent] = useState(task.hoursspent);
+  const [taskObj, setTaskObj] = useState(task);
+  const [remainingHours, setRemainingHours] = useState(task.hoursremaining >= 0 ? task.hoursremaining : 0);
+
 
   const handleAddComment = async () => {
     try {
@@ -49,6 +52,7 @@ const TaskModal = ({ isOpen, onClose, task }) => {
         "POST"
       );
       const editedTask = await response.json();
+      setRemainingHours(editedTask.hoursremaining);
       alert("Task Updated");
     } catch (error) {
       alert("Error updating task:", error);
@@ -88,8 +92,8 @@ const TaskModal = ({ isOpen, onClose, task }) => {
           </button>
           <div className="flex">
             <div className="w-3/5">
-              <h2 className="text-xl font-semibold mb-2">{task.title}</h2>
-              <p>{task.description}</p>
+              <h2 className="text-xl font-semibold mb-2">{taskObj.title}</h2>
+              <p>{taskObj.description}</p>
               <div className="w-11/12 relative mt-2">
                 <textarea
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
@@ -122,9 +126,9 @@ const TaskModal = ({ isOpen, onClose, task }) => {
             <div className="w-2/5">
               <h3 className="text-lg font-semibold mb-2">Task Details</h3>
               <ul>
-                <li className="mt-0">Column: {task.column}</li>
-                <li className="mt-3">Priority: {task.priority}</li>
-                <li className="mt-3">Estimated Hours: {task.hoursestimate}</li>
+                <li className="mt-0">Column: {taskObj.column}</li>
+                <li className="mt-3">Priority: {taskObj.priority}</li>
+                <li className="mt-3">Estimated Hours: {taskObj.hoursestimate}</li>
                 <li className="mt-3 relative">
                   Spent Hours
                   <input
@@ -140,8 +144,8 @@ const TaskModal = ({ isOpen, onClose, task }) => {
                     Set Hours
                   </button>
                 </li>
-                <li className="mt-3">Remaining Hours: {task.hoursremaining}</li>
-                <li className="mt-3">Project: {task.project.name}</li>
+                <li className="mt-3">Remaining Hours: {remainingHours}</li>
+                {/* <li className="mt-3">Project: {taskObj.project.name}</li> */}
               </ul>
             </div>
           </div>

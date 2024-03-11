@@ -9,9 +9,10 @@ import { useDrag } from "react-dnd";
 import TaskModal from "./TaskModal";
 
 const TaskCard = ({ task }) => {
-  const [priority, setPriority] = useState(task.priority);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [priority, setPriority] = useState(task.priority);
 
+  const remainingHours = task.hoursremaining >= 0 ? task.hoursremaining : 0;
   const handleOpenTaskModal = () => {
     setIsTaskModalOpen(true);
   };
@@ -74,7 +75,7 @@ const TaskCard = ({ task }) => {
 
       <div className="grid grid-cols-4 gap-1">
         <div className="text-gray-700 mb-1 place-self-center col-start-3">
-          <Tooltip label="Remaining Hours">{task.hoursremaining}</Tooltip>
+          <Tooltip label="Remaining Hours">{remainingHours}</Tooltip>
         </div>
         {getPriorityColor()}
       </div>
