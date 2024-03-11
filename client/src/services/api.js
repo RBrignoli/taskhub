@@ -1,8 +1,8 @@
-import API_URLS from "./server-urls";
+import { API_URLS, API_BASE_URL } from "./server-urls";
 
 const apiService = {
   async get(url, queryParams) {
-    const apiUrl = `${API_URLS.API_BASE_URL}${url}`;
+    const apiUrl = `${API_BASE_URL}${url}`;
     try {
       const queryString = new URLSearchParams(queryParams || {}).toString();
       const response = await fetch(`${apiUrl}?${queryString}`, {
@@ -24,7 +24,7 @@ const apiService = {
   },
 
   async api(body, url, method) {
-    const apiUrl = `${API_URLS.API_BASE_URL}${url}`;
+    const apiUrl = `${API_BASE_URL}${url}`;
 
     try {
       const response = await fetch(apiUrl, {

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, TextInput, Alert } from "flowbite-react";
 import { AiOutlineMail, AiOutlineUser, AiOutlineLock } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
-import API_URLS from "../services/server-urls";
+import { API_URLS } from "../services/server-urls";
 import apiService from "../services/api";
 
 const Signup = () => {

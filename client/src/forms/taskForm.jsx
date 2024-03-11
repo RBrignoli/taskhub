@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import apiService from "../services/api";
-import API_URLS from "../services/server-urls";
+import { API_URLS } from "../services/server-urls";
 import { Button } from "flowbite-react";
 
 const fetchUsers = async (setUsers) => {

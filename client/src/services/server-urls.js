@@ -1,7 +1,5 @@
 // apiUrls.js
 const API_URLS = {
-  API_BASE_URL: "https://taskhub-s37f.onrender.com", 
-  // API_BASE_URL: "http://localhost:8000",
   signup: "/auth/signup",
   signin: "/auth/signin",
   logout: "/auth/logout",
@@ -15,10 +13,14 @@ const API_URLS = {
   createtask: "/tasks/",
   edittask: "/tasks/",
   comments: "/comments/",
-
-
-
 };
+
+const API_BASE_URL =
+  process.env.NODE_ENV == "production"
+    ? "https://taskhub-s37f.onrender.com"
+    : "http://localhost:8000";
   
-  export default API_URLS;
-  
+export {
+  API_URLS,
+  API_BASE_URL
+};

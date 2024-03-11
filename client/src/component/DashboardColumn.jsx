@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import TaskCard from "./TaskCard";
 import { useDrop } from "react-dnd";
 import apiService from "../services/api";
-import API_URLS from "../services/server-urls";
+import { API_URLS } from "../services/server-urls";
 
 const DashboardColumn = ({
   title,
@@ -31,7 +31,6 @@ const DashboardColumn = ({
       const editedTask = await response.json();
       // location.reload()
       fetchTasks(setTasks, project, users);
-      console.log("fetch");
     } catch (error) {
       alert("Error updating task:", error);
       location.reload();

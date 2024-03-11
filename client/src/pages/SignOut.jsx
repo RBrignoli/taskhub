@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { signOutSuccess } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
-import API_URLS from "../services/server-urls";
+import { API_URLS } from "../services/server-urls";
 import apiService from "../services/api";
 
 const SignOutPage = () => {

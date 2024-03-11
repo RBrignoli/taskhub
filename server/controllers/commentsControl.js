@@ -13,7 +13,6 @@ const listComments = async (req, res) => {
 };
 
 const createComment = async (req, res) => {
-  console.log(req.user)
   const comment = new Comment({
     content: req.body.content,
     task: req.body.task_id,
