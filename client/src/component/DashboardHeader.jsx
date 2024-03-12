@@ -5,7 +5,7 @@ import TaskForm from "../forms/taskForm";
 import apiService from "../services/api";
 import { API_URLS } from "../services/server-urls";
 
-const DashboardHeader = ({ projects, onProjectChange, onUserChange, currentProject }) => {
+const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
   const [users, setUsers] = useState([]);
 
   const FormattedUsers = users.map((option) => ({
@@ -16,10 +16,9 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange, currentProje
     value: option._id,
     label: option.name,
   }));
-  console.log(currentProject)
 
-  const [selectedProject, setSelectedProject] = useState(currentProject ? ({value: currentProject}) : (null));
-  console.log(selectedProject)
+  const [selectedProject, setSelectedProject] = useState();
+  
   useEffect(() => {
     if (selectedProject) {
       const selectedProjectObj = projects.find(
@@ -29,7 +28,7 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange, currentProje
     } else {
       setUsers([]);
     }
-  }, [selectedProject, projects, currentProject]);
+  }, [selectedProject, projects]);
 
   const [selectedUser, setSelectedUser] = useState(
     FormattedUsers.find((opt) => opt.value === users.selectedUser) || null

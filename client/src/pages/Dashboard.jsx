@@ -17,7 +17,7 @@ const fetchUsers = async (setUsers, selectedProject) => {
     throw error;
   }
 };
-const fetchProjects = async (setProjects, ) => {
+const fetchProjects = async (setProjects) => {
   try {
     const response = await apiService.get(API_URLS.listprojects);
     setProjects(response);
@@ -28,11 +28,11 @@ const fetchProjects = async (setProjects, ) => {
 };
 
 const Dashboard = () => {
-  const [selectedProject, setSelectedProject] = useState("");
+  const { projectId } = useParams();
+  const [selectedProject, setSelectedProject] = useState(projectId ? (projectId): (''));
   const [projects, setProjects] = useState([]);
   const [selectedUser, setSelectedUser] = useState([]);
   const [users, setUsers] = useState([]);
-  const { projectId } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {

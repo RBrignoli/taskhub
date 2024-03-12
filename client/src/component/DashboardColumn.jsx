@@ -29,8 +29,8 @@ const DashboardColumn = ({
         "POST"
       );
       const editedTask = await response.json();
-      // location.reload()
       fetchTasks(setTasks, project, users);
+      location.reload()
     } catch (error) {
       alert("Error updating task:", error);
       location.reload();
