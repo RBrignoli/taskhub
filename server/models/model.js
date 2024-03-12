@@ -46,6 +46,7 @@ const UserSchema = new Schema(
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     tasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
+    is_admin: { type:Boolean, default:false },
     projects: [
       {
         type: Schema.Types.ObjectId,

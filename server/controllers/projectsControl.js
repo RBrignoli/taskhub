@@ -12,7 +12,17 @@ function removeDuplicates(array) {
 
 const listProjects = async (req, res) => {
   try {
-    const projects = await Project.find()
+    let query = {};
+    if (!req.user.admin) {
+      query = {
+        $or: [
+          { owner: req.user._id },
+          { members: req.user._id },
+          { managers: req.user._id },
+        ],
+      };
+    }
+    const projects = await Project.find(query)
       .populate("owner")
       .populate("members")
       .populate("managers");
@@ -37,6 +47,7 @@ const listProjects = async (req, res) => {
     }));
     res.json(modifiedProjects);
   } catch (err) {
+    console.log(err)
     res.status(500).json({ message: err.message });
   }
 };

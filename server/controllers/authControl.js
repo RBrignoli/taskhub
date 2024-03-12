@@ -51,6 +51,7 @@ const signin = async (req, res, next) => {
         _id: user._id,
         email: user.email,
         name: user.name,
+        admin:  user.is_admin ? user.is_admin : false
       },
       process.env.jwt_secret_key,
       { expiresIn: 1000 * 60 * 60 * 24 * 3 }
