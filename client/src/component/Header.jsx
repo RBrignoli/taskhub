@@ -34,7 +34,7 @@ export default function Header() {
         {currentUser ? (
           <>
             <Navbar.Link active={path === "/backlog"} as={"div"}>
-              <Link to="/backlog">Home</Link>
+              <Link to="/backlog">Backlog</Link>
             </Navbar.Link>
             <Navbar.Link active={path === "/dashboard"} as={"div"}>
               <Link to="/dashboard">Dashboard</Link>
