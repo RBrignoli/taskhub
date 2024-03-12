@@ -4,9 +4,8 @@ import CreateButton from "../component/CreateButton";
 import TaskForm from "../forms/taskForm";
 import apiService from "../services/api";
 import { API_URLS } from "../services/server-urls";
-import { useLocation } from "react-router-dom";
 
-const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
+const DashboardHeader = ({ projects, onProjectChange, onUserChange, currentProject }) => {
   const [users, setUsers] = useState([]);
 
   const FormattedUsers = users.map((option) => ({
@@ -17,18 +16,10 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
     value: option._id,
     label: option.name,
   }));
-  const projectIdFromUrl = useLocation().pathname.split("/")[2];
+  console.log(currentProject)
 
-  const [selectedProject, setSelectedProject] = useState();
-  if (projectIdFromUrl) {
-    const testeA =
-      FormattedProjects.find((option) => option.value === projectIdFromUrl) ||
-      null;
-    // if (testeA) {
-    //   setSelectedProject(testeA);
-    // }
-  }
-
+  const [selectedProject, setSelectedProject] = useState(currentProject ? ({value: currentProject}) : (null));
+  console.log(selectedProject)
   useEffect(() => {
     if (selectedProject) {
       const selectedProjectObj = projects.find(
@@ -38,7 +29,7 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
     } else {
       setUsers([]);
     }
-  }, [selectedProject, projects]);
+  }, [selectedProject, projects, currentProject]);
 
   const [selectedUser, setSelectedUser] = useState(
     FormattedUsers.find((opt) => opt.value === users.selectedUser) || null
