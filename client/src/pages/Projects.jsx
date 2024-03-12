@@ -51,7 +51,6 @@ const Projects = () => {
       setIsDeleting(true);
       try {
         await apiService.api("", API_URLS.deleteprojects + projectId, "DELETE");
-
         alert("Project deleted successfully");
         location.reload();
       } catch (error) {
