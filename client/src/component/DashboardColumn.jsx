@@ -3,6 +3,8 @@ import TaskCard from "./TaskCard";
 import { useDrop } from "react-dnd";
 import apiService from "../services/api";
 import { API_URLS } from "../services/server-urls";
+import { useParams } from "react-router-dom";
+
 
 const DashboardColumn = ({
   title,
@@ -20,6 +22,8 @@ const DashboardColumn = ({
       isOver: !!monitor.isOver(),
     }),
   }));
+  const { projectId } = useParams();
+
 
   const moveTaskColumn = async (id, column_id) => {
     try {
@@ -29,7 +33,7 @@ const DashboardColumn = ({
         "POST"
       );
       const editedTask = await response.json();
-      fetchTasks(setTasks, project, users);
+      fetchTasks(setTasks, projectId, users);
       location.reload()
     } catch (error) {
       alert("Error updating task:", error);
