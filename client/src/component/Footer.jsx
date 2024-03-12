@@ -1,7 +1,7 @@
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white p-4">
+    <footer className="bg-gray-800 text-white p-4 fixed bottom-0 w-full">
       <div className="container mx-auto">
         <p className="text-center">
           &copy; 2024 TaskHub Project Manager App. All rights reserved. |
