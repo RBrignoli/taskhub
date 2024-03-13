@@ -4,17 +4,21 @@ import { API_URLS } from "../services/server-urls";
 import { useSelector } from "react-redux";
 import Tooltip from "../component/Tooltip";
 import { AiOutlineDelete } from "react-icons/ai";
+import LoadingIndicator from "../component/Loading";
+
 
 const Backlog = () => {
   const [user, setUser] = useState(null);
   const [projects, setProjects] = useState([]);
   const [expandedProject, setExpandedProject] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { currentUser } = useSelector((state) => state.user.user);
   const fetchProjects = async () => {
     try {
       const response = await apiService.get(API_URLS.listprojects);
 
       setProjects(response);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching users:", error);
       throw error;
@@ -102,6 +106,13 @@ const Backlog = () => {
             <h2 className="text-xl font-bold mb-4">Your projects</h2>
           </div>
         )}
+        {loading && (
+              <tr>
+                <td colSpan="4">
+                  <LoadingIndicator size="1" />
+                </td>
+              </tr>
+            )}
         <ul className="my-2 p-0">
           {projects.map((project) => (
             <li

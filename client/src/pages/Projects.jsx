@@ -7,11 +7,12 @@ import { API_URLS } from "../services/server-urls";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { Button } from "flowbite-react";
 import { Link } from "react-router-dom";
+import LoadingIndicator from "../component/Loading";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [isDeleting, setIsDeleting] = useState(false);
-
+  const [loading, setLoading] = useState(true);
 
   const onSubmit = async (project) => {
     try {
@@ -66,6 +67,7 @@ const Projects = () => {
       try {
         const response = await apiService.get(API_URLS.listprojects);
         setProjects(response);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching users:", error);
         throw error;
@@ -96,6 +98,13 @@ const Projects = () => {
             </tr>
           </thead>
           <tbody>
+            {loading && (
+              <tr>
+                <td colSpan="4">
+                  <LoadingIndicator size="1" />
+                </td>
+              </tr>
+            )}
             {projects.map((project) => (
               <tr key={project._id}>
                 <td className="border-b border-gray-200 py-4 px-4">
