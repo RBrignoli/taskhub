@@ -91,7 +91,7 @@ const deleteTask = async (req, res) => {
     const projectId = req.body.project;
     const requester_id = req.user._id;
     const project = await Project.findById(projectId);
-    if (!project || !removedTask) {
+    if (!project || !removeTask) {
       return res.status(404).json({ message: "Not found" });
     }
     if (
