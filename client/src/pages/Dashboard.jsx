@@ -10,7 +10,7 @@ import { useParams, useNavigate } from "react-router-dom";
 const fetchUsers = async (setUsers, selectedProject) => {
   try {
     const queryParams = { project: selectedProject };
-    const response = await apiService.get(API_URLS.listusers, queryParams);
+    const response = await apiService.get(API_URLS.users, queryParams);
     setUsers(response);
   } catch (error) {
     console.error("Error fetching users:", error);

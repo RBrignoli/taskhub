@@ -40,7 +40,6 @@ const Signup = () => {
         API_URLS.signup,
         "POST"
       );
-      console.log(response);
       if (response.status === 200) {
         setMessage("Signup successfully!");
         setTimeout(() => {

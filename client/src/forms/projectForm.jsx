@@ -7,7 +7,7 @@ import Select from "react-select";
 
 const fetchUsers = async (setUsers) => {
   try {
-    const response = await apiService.get(API_URLS.listusers);
+    const response = await apiService.get(API_URLS.users);
     setUsers(response);
     return response;
   } catch (error) {

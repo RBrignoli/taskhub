@@ -10,6 +10,8 @@ import Projects from "./pages/Projects";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
 import Backlog from "./pages/Backlog"
+import Admin from "./pages/Admin"
+
 
 export default function App() {
   return (
@@ -26,6 +28,8 @@ export default function App() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/dashboard/:projectId" element={<Dashboard />} />
         <Route path="/backlog" element={<Backlog />} />
+        <Route path="/admin" element={<Admin />} />
+
 
       </Routes>
       <Footer />
