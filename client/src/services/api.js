@@ -35,7 +35,11 @@ const apiService = {
         body: body,
         credentials: "include",
       });
-
+      
+      if (response.status === 401) {
+        alert("You are not authorized to perform this action");
+        return;
+      }
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
