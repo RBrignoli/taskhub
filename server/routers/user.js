@@ -4,10 +4,10 @@ const userController = require("../controllers/userControl")
 const { cookieValidator } = require("../middlewares/cookieValidator");
 
 
-router.get("/", userController.listUsers);
-router.get("/:id", userController.getUser);
-router.post("/", userController.createUser);
-router.post("/:id", userController.updateUser);
-router.delete("/:id", userController.deleteUser);
+router.get("/", cookieValidator, userController.listUsers);
+router.get("/:id", cookieValidator, userController.getUser);
+router.post("/", cookieValidator, userController.createUser);
+router.post("/:id", cookieValidator, userController.updateUser);
+router.delete("/:id", cookieValidator, userController.deleteUser);
 
 module.exports = router;

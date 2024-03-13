@@ -3,7 +3,7 @@ const API_URLS = {
   signup: "/auth/signup",
   signin: "/auth/signin",
   logout: "/auth/logout",
-  listusers: "/users/",
+  users: "/users/",
   createproject: "/projects/",
   listprojects: "/projects/",
   deleteprojects: "/projects/",
