@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const models = require("../models/model");
 const Task = models.Task;
+const Project = models.Project;
 
 const listTasks = async (req, res) => {
   try {
@@ -47,8 +48,20 @@ const getTask = async (req, res) => {
 
 const createTask = async (req, res) => {
   const task = new Task(req.body);
-
+  const projectId = req.body.project;
+  const requester_id = req.user._id;
   try {
+    const project = await Project.findById(projectId);
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+    if (
+      project.owner.toString() !== requester_id &&
+      !project.managers.includes(requester_id) &&
+      !req.user.admin
+    ) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
     const savedTask = await task.save();
     res.status(201).json(savedTask);
   } catch (err) {
@@ -74,13 +87,24 @@ const updateTask = async (req, res) => {
 
 const deleteTask = async (req, res) => {
   try {
-    const removedTask = await Task.findByIdAndRemove(req.params.id);
-
-    if (!removedTask) {
-      return res.status(404).json({ message: "Task not found" });
+    const removeTask = await Task.findById(req.params.id);
+    const projectId = req.body.project;
+    const requester_id = req.user._id;
+    const project = await Project.findById(projectId);
+    if (!project || !removeTask) {
+      return res.status(404).json({ message: "Not found" });
+    }
+    if (
+      project.owner.toString() !== requester_id &&
+      !project.managers.includes(requester_id) &&
+      !req.user.admin
+    ) {
+      return res.status(401).json({ message: "Unauthorized" });
     }
 
-    res.json(removedTask);
+    await Project.findByIdAndRemove(removeTask);
+
+    res.json(removeTask);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
