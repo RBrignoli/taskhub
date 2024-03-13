@@ -51,8 +51,14 @@ const Projects = () => {
     if (window.confirm("Are you sure you want to delete this project?")) {
       setIsDeleting(true);
       try {
-        await apiService.api("", API_URLS.deleteprojects + projectId, "DELETE");
-        alert("Project deleted successfully");
+        const response = await apiService.api(
+          "",
+          API_URLS.deleteprojects + projectId,
+          "DELETE"
+        );
+        if (response) {
+          alert("Project deleted successfully");
+        }
         location.reload();
       } catch (error) {
         alert("Error deleting project. Please try again later.");

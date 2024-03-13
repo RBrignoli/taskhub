@@ -59,7 +59,7 @@ const DashboardHeader = ({ projects, onProjectChange, onUserChange }) => {
       alert("New task created:", task);
       location.reload();
     } catch (error) {
-      alert("Error creating project:", error);
+      alert("Error creating task:", error);
       // TODO: show error message to the user
     }
   };

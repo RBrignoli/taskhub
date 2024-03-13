@@ -86,8 +86,15 @@ const Backlog = () => {
   const handleDeleteTask = (task) => async () => {
     if (window.confirm("Are you sure you want to delete this task?")) {
       try {
-        await apiService.api("", API_URLS.deletetask + task.id, "DELETE");
-        alert("Task deleted successfully");
+        const response = await apiService.api(
+          "",
+          API_URLS.deletetask + task.id,
+          "DELETE"
+        );
+
+        if (response) {
+          alert("Task deleted successfully");
+        }
         fetchProjects();
       } catch (error) {
         alert("Error deleting task. Please try again later.");
