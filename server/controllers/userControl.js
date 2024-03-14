@@ -11,6 +11,7 @@ const listUsers = async (req, res) => {
       name: user.name,
       email: user.email,
       createdAt: user.createdAt,
+      isAdmin: user.is_admin,
     }));
     res.json(usersList);
   } catch (err) {
@@ -46,8 +47,7 @@ const updateUser = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       {
-        name: req.body.name,
-        description: req.body.description,
+        is_admin: req.body.is_admin
       },
       { new: true }
     );
