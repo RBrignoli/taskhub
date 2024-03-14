@@ -71,10 +71,21 @@ const createTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
   try {
+
+    const requester_id = req.user._id;
+    const task = await Task.findById(req.params.id);
+    const project = await Project.findById(task.project);
+    if (
+      project.owner.toString() !== requester_id &&
+      !project.managers.includes(requester_id) &&
+      !req.user.admin &&
+      task.user !== requester_id
+    ) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
     const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-
     if (!updatedTask) {
       return res.status(404).json({ message: "Task not found" });
     }
@@ -88,7 +99,7 @@ const updateTask = async (req, res) => {
 const deleteTask = async (req, res) => {
   try {
     const removeTask = await Task.findById(req.params.id);
-    const projectId = req.body.project;
+    const projectId = removeTask.project;
     const requester_id = req.user._id;
     const project = await Project.findById(projectId);
     if (!project || !removeTask) {
@@ -102,7 +113,7 @@ const deleteTask = async (req, res) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    await Project.findByIdAndRemove(removeTask);
+    await Task.findByIdAndRemove(req.params.id);
 
     res.json(removeTask);
   } catch (err) {
