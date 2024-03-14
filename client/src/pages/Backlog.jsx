@@ -114,12 +114,12 @@ const Backlog = () => {
           </div>
         )}
         {loading && (
-              <tr>
-                <td colSpan="4">
-                  <LoadingIndicator size="1" />
-                </td>
-              </tr>
-            )}
+          <tr>
+            <td colSpan="4">
+              <LoadingIndicator size="1" />
+            </td>
+          </tr>
+        )}
         <ul className="my-2 p-0">
           {projects.map((project) => (
             <li
@@ -131,25 +131,33 @@ const Backlog = () => {
               <div>
                 {expandedProject === project._id && (
                   <ul className="my-2 p-0">
+                    <li className="flex rounded-none py-1.5 px-3 text-md font-medium text-blue-gray-700 hover:bg-gray-200">
+                      <div className="w-1/4">Task Title</div>
+                      <div className="w-1/4">Responsible</div>
+                      <div className="w-1/4">Remaining Hours</div>
+                      <div className="w-1/4">Status</div>
+                      <div className="w-1/12">Is Active</div>
+                      <div>Delete</div>
+                    </li>
                     {project.tasks.map((task) => (
                       <li
                         key={task._id}
                         className="flex rounded-none py-1.5 px-3 text-sm font-normal text-blue-gray-700 hover:bg-gray-200"
                       >
-                        <div className="w-1/3">
+                        <div className="w-1/4">
                           <Tooltip label="Task Title">{task.title}</Tooltip>
                         </div>
-                        <div className="w-2/6">
+                        <div className="w-1/4">
                           <Tooltip label="Responsible">
                             {task.user.name}
                           </Tooltip>
                         </div>
-                        <div className="w-1/12">
+                        <div className="w-1/4">
                           <Tooltip label="Remaining Hours">
                             {task.hoursremaining}
                           </Tooltip>
                         </div>
-                        <div className="w-1/12">
+                        <div className="w-1/4">
                           <Tooltip label="Status">
                             {getColumnString(task.column)}
                           </Tooltip>
