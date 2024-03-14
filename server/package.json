@@ -4,7 +4,7 @@
   "description": "Custom project manager",
   "main": "index.js",
   "scripts": {
-    "test": "test",
+    "test": "jest --verbose",
     "start": "node index.js",
     "dev": "nodemon index.js",
     "build": "npm install && npm install --prefix"
@@ -21,6 +21,8 @@
     "mongoose": "^7.6.4"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.4"
   }
 }
