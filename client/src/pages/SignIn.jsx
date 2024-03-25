@@ -10,6 +10,7 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice";
+import OAuth from "../component/OAuth";
 
 const SignInPage = () => {
   const [formData, setFormData] = useState({
@@ -115,7 +116,13 @@ const SignInPage = () => {
               Sign Up
             </Link>
           </div>
-          <Button type="submit" className="px-2 py-1 bg-gray-800 text-white rounded-lg">Sign In</Button>
+          <Button
+            type="submit"
+            className="px-2 py-1 bg-gray-800 text-white rounded-lg"
+          >
+            Sign In
+          </Button>
+          <OAuth />
           {Message && <Alert className="">{Message}</Alert>}
         </form>
       </div>
