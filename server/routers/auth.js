@@ -10,6 +10,7 @@ router.get("/", (req, res) => {
 router.post("/signup", controlAuth.signup);
 router.post("/signin", controlAuth.signin);
 router.post("/logout", controlAuth.logout);
+router.post("/google", controlAuth.google);
 
 
 module.exports = router;

@@ -4,6 +4,7 @@ import { AiOutlineMail, AiOutlineUser, AiOutlineLock } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { API_URLS } from "../services/server-urls";
 import apiService from "../services/api";
+import OAuth from "../component/OAuth";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -131,6 +132,7 @@ const Signup = () => {
             />
           </div>
           <Button type="submit" className="px-2 py-1 bg-gray-800 text-white rounded-lg">Sign Up</Button>
+          <OAuth />
           <div className="flex gap-2 text-sm">
             <span>Already have an account?</span>
             <Link to="/signin" className="text-blue-500">
