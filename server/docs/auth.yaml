@@ -1,49 +1,79 @@
 openapi: 3.0.0
 info:
-  title: API de Clientes e Produtos
+  title: Authentication API
+  description: API for user authentication including signup, signin, logout, and Google OAuth.
   version: 1.0.0
-  description: API para gerenciar clientes, produtos e autenticação com JWT
 servers:
-  - url: http://localhost:3000
-    description: Servidor de Desenvolvimento
+  - url: http://localhost:3000/api/auth
+tags:
+  - name: Auth
+    description: Operations related to user authentication
+
 paths:
-  /clientes:
+  /:
     get:
-      summary: Retorna a lista de todos os clientes
+      summary: Check Auth Router
+      tags:
+        - Auth
       responses:
-        '200':
-          description: Lista de clientes
+        200:
+          description: Returns a confirmation message that the auth router is working.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Cliente'
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "auth router ok"
 
-  /clientes/{id}:
-    get:
-      summary: Retorna um cliente pelo ID
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID do cliente
-      responses:
-        '200':
-          description: Cliente encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Cliente'
-        '404':
-          description: Cliente não encontrado
-
-  /login:
+  /signup:
     post:
-      summary: Realiza o login de um usuário
+      summary: User Signup
+      tags:
+        - Auth
       requestBody:
+        description: Provide user data for signup.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John Doe
+                email:
+                  type: string
+                  example: john@example.com
+                password:
+                  type: string
+                  example: password123
+      responses:
+        200:
+          description: Successfully created a user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User Created"
+        400:
+          description: Missing required fields (name, email, or password).
+        409:
+          description: Email already exists.
+        500:
+          description: Internal server error.
+
+  /signin:
+    post:
+      summary: User Signin
+      tags:
+        - Auth
+      requestBody:
+        description: Provide user credentials for signin.
         required: true
         content:
           application/json:
@@ -52,42 +82,93 @@ paths:
               properties:
                 email:
                   type: string
-                  description: Email do usuário
-                senha:
+                  example: john@example.com
+                password:
                   type: string
-                  description: Senha do usuário
+                  example: password123
       responses:
-        '200':
-          description: Login bem-sucedido e retorno do token JWT
+        200:
+          description: Successfully authenticated the user.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  token:
+                  _id:
                     type: string
-                    description: O JWT gerado
-        '401':
-          description: Credenciais inválidas
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  admin:
+                    type: boolean
+        400:
+          description: Missing required fields (email or password).
+        401:
+          description: Invalid Email or Password.
+        404:
+          description: User not found.
+        500:
+          description: Internal server error.
 
-components:
-  schemas:
-    Cliente:
-      type: object
-      required:
-        - nome
-        - email
-        - senha
-      properties:
-        id:
-          type: string
-          description: O ID gerado automaticamente
-        nome:
-          type: string
-          description: Nome do cliente
-        email:
-          type: string
-          description: Email do cliente
-        senha:
-          type: string
-          description: Senha criptografada do cliente
+  /logout:
+    post:
+      summary: User Logout
+      tags:
+        - Auth
+      responses:
+        200:
+          description: User logged out successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "User logged out successfully"
+        500:
+          description: Internal server error.
+
+  /google:
+    post:
+      summary: Google OAuth Login
+      tags:
+        - Auth
+      requestBody:
+        description: Provide Google OAuth data (name, email).
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John Doe
+                email:
+                  type: string
+                  example: john@example.com
+      responses:
+        200:
+          description: Successfully authenticated the user via Google OAuth.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  admin:
+                    type: boolean
+        400:
+          description: Missing required fields (name or email).
+        500:
+          description: Internal server error.
