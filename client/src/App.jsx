@@ -29,8 +29,6 @@ export default function App() {
         <Route path="/dashboard/:projectId" element={<Dashboard />} />
         <Route path="/backlog" element={<Backlog />} />
         <Route path="/admin" element={<Admin />} />
-
-
       </Routes>
       <Footer />
     </BrowserRouter>

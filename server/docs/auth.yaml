@@ -1,0 +1,93 @@
+openapi: 3.0.0
+info:
+  title: API de Clientes e Produtos
+  version: 1.0.0
+  description: API para gerenciar clientes, produtos e autenticação com JWT
+servers:
+  - url: http://localhost:3000
+    description: Servidor de Desenvolvimento
+paths:
+  /clientes:
+    get:
+      summary: Retorna a lista de todos os clientes
+      responses:
+        '200':
+          description: Lista de clientes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cliente'
+
+  /clientes/{id}:
+    get:
+      summary: Retorna um cliente pelo ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID do cliente
+      responses:
+        '200':
+          description: Cliente encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        '404':
+          description: Cliente não encontrado
+
+  /login:
+    post:
+      summary: Realiza o login de um usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Email do usuário
+                senha:
+                  type: string
+                  description: Senha do usuário
+      responses:
+        '200':
+          description: Login bem-sucedido e retorno do token JWT
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: O JWT gerado
+        '401':
+          description: Credenciais inválidas
+
+components:
+  schemas:
+    Cliente:
+      type: object
+      required:
+        - nome
+        - email
+        - senha
+      properties:
+        id:
+          type: string
+          description: O ID gerado automaticamente
+        nome:
+          type: string
+          description: Nome do cliente
+        email:
+          type: string
+          description: Email do cliente
+        senha:
+          type: string
+          description: Senha criptografada do cliente

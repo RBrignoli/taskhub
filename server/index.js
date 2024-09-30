@@ -3,12 +3,18 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./utils/connector");
 const cookieParser = require("cookie-parser");
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+
+const swaggerDocument = YAML.load('./docs/auth.yaml'); // O caminho para o seu arquivo YAML
 
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 
 connectDB();
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(
   cors({
     origin: [process.env.client_url, process.env.prod_url],
