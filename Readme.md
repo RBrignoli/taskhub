@@ -5,7 +5,7 @@
 Welcome to my Fullstack project, a small-scale version of a Project Manager Web App. This project serves as the final exam for my postgraduate program in Fullstack Web Development. The goal is to create a web application similar to popular project management tools like Jira or Monday.
 
 ## Technologies Used
-
+ilsudghiasdfhg
 - **Frontend:**
   - React
   - JavaScript
