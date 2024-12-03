@@ -6,15 +6,14 @@ const cookieParser = require("cookie-parser");
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 
-const swaggerDocument = YAML.load('./docs/auth.yaml'); // O caminho para o seu arquivo YAML
-
+const swaggerDocument = YAML.load('./docs/auth.yaml');
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 
 connectDB();
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(
   cors({
     origin: [process.env.client_url, process.env.prod_url],
@@ -23,7 +22,6 @@ app.use(
   })
 );
 app.use(cookieParser());
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -58,3 +56,4 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
+module.exports = app;
